@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Papers - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --gray: #718096;
+            --light-gray: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+        }
+        
+        /* Hero Section */
+        .samples-hero {
+            padding: 180px 0 80px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #f9f9f9 100%);
+            text-align: center;
+        }
+        
+        .samples-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .samples-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--gray);
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+        
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .filter-header h2 {
+            font-size: 24px;
+        }
+        
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .filter-group select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        /* Samples Grid */
+        .samples-section {
+            padding: 60px 0;
+            background: #f8fafc;
+        }
+        
+        .samples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .sample-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .sample-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sample-image {
+            height: 200px;
+            background: var(--light-gray);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sample-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .sample-category {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .sample-content {
+            padding: 25px;
+        }
+        
+        .sample-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .sample-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .sample-description {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        .sample-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sample-download {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sample-download i {
+            margin-right: 5px;
+        }
+        
+        .sample-pages {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        
+        .pagination-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--light-gray);
+            background: white;
+        }
+        
+        .pagination-button:hover {
+            background: var(--light-gray);
+        }
+        
+        .pagination-button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, #6b8cff 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-content p {
+            opacity: 0.9;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .footer-about p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .social-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links ul li a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .samples-hero h1 {
+                font-size: 36px;
+            }
+            
+            .samples-hero p {
+                font-size: 18px;
+            }
+            
+            .filter-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-bar {
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .samples-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-content h2 {
+                font-size: 30px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin: 15px 0;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+            
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-pen-fancy"></i>
+                <span>Maestro Essay</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="index.html#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                    <li><a href="writer.html">Writers</a></li>
+                    <li><a href="samples.html">Samples</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" onclick="location.href='login.html'">Login</button>
+                <button class="btn btn-primary" onclick="location.href='sign-up.html'">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="samples-hero">
+        <div class="container">
+            <h1>Sample Papers</h1>
+            <p>Browse our collection of professionally written academic papers to see the quality you can expect</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">Order Now</button>
+                <button class="btn btn-outline">How It Works</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="container">
+        <div class="filter-section">
+            <div class="filter-header">
+                <h2>Find the Perfect Sample</h2>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search samples...">
+                </div>
+            </div>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="paper-type">Paper Type</label>
+                    <select id="paper-type">
+                        <option value="">All Types</option>
+                        <option value="essay">Essay</option>
+                        <option value="research">Research Paper</option>
+                        <option value="thesis">Thesis</option>
+                        <option value="dissertation">Dissertation</option>
+                        <option value="case-study">Case Study</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="subject">Subject</label>
+                    <select id="subject">
+                        <option value="">All Subjects</option>
+                        <option value="business">Business</option>
+                        <option value="economics">Economics</option>
+                        <option value="literature">Literature</option>
+                        <option value="history">History</option>
+                        <option value="psychology">Psychology</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="academic-level">Academic Level</label>
+                    <select id="academic-level">
+                        <option value="">All Levels</option>
+                        <option value="high-school">High School</option>
+                        <option value="college">College</option>
+                        <option value="undergrad">Undergraduate</option>
+                        <option value="masters">Master's</option>
+                        <option value="phd">PhD</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-by">Sort By</label>
+                    <select id="sort-by">
+                        <option value="newest">Newest First</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="rating">Highest Rated</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Samples Section -->
+    <section class="samples-section">
+        <div class="container">
+            <div class="samples-grid">
+                <!-- Sample 1 -->
+                <div class="sample-card">
+                    <div class="sample-image">
+                        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Business sample">
+                        <div class="sample-category">Business</div>
+                    </div>
+                    <div class="sample-content">
+                        <h3 class="sample-title">Impact of Globalization on Small Businesses</h3>
+                        <div class="sample-meta">
+                            <span>Research Paper</span>
+                            <span>Undergraduate Level</span>
+                        </div>
+                        <p class="sample-description">An in-depth analysis of how globalization affects small businesses with case studies from three different industries.</p>
+                        <div class="sample-actions">
+                            <a href="#" class="sample-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <span class="sample-pages">12 pages</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sample 2 -->
+                <div class="sample-card">
+                    <div class="sample-image">
+                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Literature sample">
+                        <div class="sample-category">Literature</div>
+                    </div>
+                    <div class="sample-content">
+                        <h3 class="sample-title">Symbolism in The Great                        Gatsby</h3>
+                        <div class="sample-meta">
+                            <span>Essay</span>
+                            <span>College Level</span>
+                        </div>
+                        <p class="sample-description">Exploring the use of symbolism in F. Scott Fitzgerald's The Great Gatsby, focusing on the green light and the Valley of Ashes.</p>
+                        <div class="sample-actions">
+                            <a href="#" class="sample-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <span class="sample-pages">8 pages</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sample 3 -->
+                <div class="sample-card">
+                    <div class="sample-image">
+                        <img src="https://images.unsplash.com/photo-1509228622682-30f7e60d6d33?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Psychology sample">
+                        <div class="sample-category">Psychology</div>
+                    </div>
+                    <div class="sample-content">
+                        <h3 class="sample-title">Effects of Social Media on Mental Health</h3>
+                        <div class="sample-meta">
+                            <span>Research Paper</span>
+                            <span>Master's Level</span>
+                        </div>
+                        <p class="sample-description">A comprehensive study on the psychological impacts of social media usage among young adults, with statistical analysis.</p>
+                        <div class="sample-actions">
+                            <a href="#" class="sample-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <span class="sample-pages">15 pages</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sample 4 -->
+                <div class="sample-card">
+                    <div class="sample-image">
+                        <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="History sample">
+                        <div class="sample-category">History</div>
+                    </div>
+                    <div class="sample-content">
+                        <h3 class="sample-title">The Industrial Revolution's Impact on Urbanization</h3>
+                        <div class="sample-meta">
+                            <span>Essay</span>
+                            <span>Undergraduate Level</span>
+                        </div>
+                        <p class="sample-description">An analysis of how the Industrial Revolution shaped urban development in 19th-century Europe.</p>
+                        <div class="sample-actions">
+                            <a href="#" class="sample-download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <span class="sample-pages">10 pages</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <div class="pagination-button"><i class="fas fa-chevron-left"></i></div>
+                <div class="pagination-button active">1</div>
+                <div class="pagination-button">2</div>
+                <div class="pagination-button">3</div>
+                <div class="pagination-button"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container cta-content">
+            <h2>Ready to Get Your Perfect Paper?</h2>
+            <p>Let our professional writers craft a custom paper tailored to your needs. Order now and experience the Maestro Essay difference!</p>
+            <button class="btn btn-primary">Order Now</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-about">
+                <div class="footer-logo">Maestro Essay</div>
+                <p>We provide high-quality academic writing services to help students achieve their academic goals.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="index.html#prices">Prices</a></li>
+                    <li><a href="samples.html">Samples</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="FAGS.html">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="refund-policy.html">Refund Policy</a></li>
+                    <li><a href="#">Live Chat</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Maestro Essay. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const sampleCards = document.querySelectorAll('.sample-card');
+            
+            sampleCards.forEach(card => {
+                const title = card.querySelector('.sample-title').textContent.toLowerCase();
+                const description = card.querySelector('.sample-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        const filters = document.querySelectorAll('.filter-group select');
+        filters.forEach(filter => {
+            filter.addEventListener('change', applyFilters);
+        });
+
+        function applyFilters() {
+            const paperType = document.getElementById('paper-type').value;
+            const subject = document.getElementById('subject').value;
+            const academicLevel = document.getElementById('academic-level').value;
+            const sortBy = document.getElementById('sort-by').value;
+
+            const sampleCards = Array.from(document.querySelectorAll('.sample-card'));
+
+            // Filter
+            let filteredCards = sampleCards.filter(card => {
+                const cardType = card.querySelector('.sample-meta span:first-child').textContent.toLowerCase();
+                const cardLevel = card.querySelector('.sample-meta span:last-child').textContent.toLowerCase();
+                const cardSubject = card.querySelector('.sample-category').textContent.toLowerCase();
+
+                return (
+                    (!paperType || cardType.includes(paperType)) &&
+                    (!subject || cardSubject.includes(subject)) &&
+                    (!academicLevel || cardLevel.includes(academicLevel))
+                );
+            });
+
+            // Sort
+            if (sortBy === 'newest') {
+                filteredCards.sort((a, b) => b.dataset.date - a.dataset.date);
+            } else if (sortBy === 'popular') {
+                filteredCards.sort((a, b) => b.dataset.popularity - a.dataset.popularity);
+            } else if (sortBy === 'rating') {
+                filteredCards.sort((a, b) => b.dataset.rating - a.dataset.rating);
+            }
+
+            // Update grid
+            const samplesGrid = document.querySelector('.samples-grid');
+            samplesGrid.innerHTML = '';
+            filteredCards.forEach(card => samplesGrid.appendChild(card));
+        }
+
+        // Pagination
+        const paginationButtons = document.querySelectorAll('.pagination-button');
+        paginationButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                paginationButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                // Add logic to load new samples based on page number
+            });
+        });
+
+        // Add sample data attributes for sorting (example)
+        document.querySelectorAll('.sample-card').forEach((card, index) => {
+            card.dataset.date = Date.now() - index * 86400000; // Simulate dates
+            card.dataset.popularity = 100 - index * 10; // Simulate popularity
+            card.dataset.rating = 5 - index * 0.5; // Simulate rating
+        });
+    </script>
+    <script src="js/scroll-offset.js"></script>
+</body>
+</html>

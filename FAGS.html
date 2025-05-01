@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --gray: #718096;
+            --light-gray: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+        }
+        
+        /* FAQ Section */
+        .faq-hero {
+            padding: 180px 0 80px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #f9f9f9 100%);
+            text-align: center;
+        }
+        
+        .faq-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .faq-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--gray);
+        }
+        
+        .faq-content {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .faq-content h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .faq-item {
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 20px;
+        }
+        
+        .faq-item h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .faq-item h3 i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .faq-item p {
+            margin-bottom: 15px;
+            color: var(--gray);
+        }
+        
+        .faq-item ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        
+        .faq-item ul li {
+            margin-bottom: 10px;
+            color: var(--gray);
+        }
+        
+        .faq-item a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .faq-item a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .footer-about p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .social-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links ul li a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .faq-hero h1 {
+                font-size: 36px;
+            }
+            
+            .faq-hero p {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .faq-content h2 {
+                font-size: 24px;
+            }
+            
+            .faq-item h3 {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin: 15px 0;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-pen-fancy"></i>
+                <span>Maestro Essay</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="index.html#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                    <li><a href="writer.html">Writers</a></li>
+                    <li><a href="samples.html">Samples</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline">Login</button>
+                <button class="btn btn-primary">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- FAQ Hero Section -->
+    <section class="faq-hero">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <p>Find answers to common questions about our academic writing services.</p>
+        </div>
+    </section>
+
+    <!-- FAQ Content Section -->
+    <section class="faq-content">
+        <div class="container">
+            <h2>Your Questions, Answered</h2>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> What services does Maestro Essay provide?</h3>
+                <p>Maestro Essay offers professional academic writing, editing, and proofreading services. Our expert writers can assist with essays, research papers, dissertations, and more, tailored to your academic needs.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> How do I place an order?</h3>
+                <p>To place an order, follow these steps:</p>
+                <ul>
+                    <li>Create an account or log in to our website.</li>
+                    <li>Fill out the order form with details like subject, word count, deadline, and instructions.</li>
+                    <li>Select a writer or let us assign one based on your requirements.</li>
+                    <li>Make a secure payment to confirm your order.</li>
+                    <li>Track your order and communicate with your writer through our platform.</li>
+                </ul>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> Are your writers qualified?</h3>
+                <p>Yes, our writers are highly qualified professionals with advanced degrees (Bachelor’s, Master’s, or PhD) and years of experience in academic writing. You can view their profiles, ratings, and specialties on our <a href="#">Writers</a> page.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> Is your service confidential?</h3>
+                <p>Absolutely. We prioritize your privacy and protect your personal information in accordance with our <a href="#">Privacy Policy</a>. Your order details and identity are kept confidential and never shared with third parties except as necessary to fulfill your order.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> Will my paper be plagiarism-free?</h3>
+                <p>Yes, we guarantee 100% original content. Every paper is written from scratch and checked with reputable plagiarism detection tools. If plagiarism is detected, you may be eligible for a refund under our <a href="#">Refund Policy</a>.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> What if I’m not satisfied with the delivered work?</h3>
+                <p>If the work does not meet your instructions, you can request free revisions within 14 days of delivery. If revisions cannot resolve the issue, you may request a refund, subject to the conditions outlined in our <a href="#">Refund Policy</a>.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> How are prices determined?</h3>
+                <p>Prices are based on factors such as:</p>
+                <ul>
+                    <li>Word count or page length.</li>
+                    <li>Academic level (e.g., high school, undergraduate, postgraduate).</li>
+                    <li>Deadline urgency (e.g., 24 hours, 7 days).</li>
+                    <li>Complexity of the assignment.</li>
+                </ul>
+                <p>Visit our <a href="#">Prices</a> page for detailed pricing information.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> Can I communicate with my writer?</h3>
+                <p>Yes, you can communicate with your writer through our secure messaging system to provide additional instructions or ask questions. Direct contact outside the platform is not permitted to protect your privacy.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> What payment methods do you accept?</h3>
+                <p>We accept secure payments via major credit/debit cards, PayPal, and other trusted payment processors. All transactions are encrypted for your safety. Check our <a href="#">Prices</a> page for more details.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> How do I know my order is on track?</h3>
+                <p>Once your order is placed, you can track its progress through your account dashboard. You’ll receive notifications about key milestones, such as writer assignment, draft completion, and final delivery.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> Can I use your work as my own?</h3>
+                <p>Our services are intended for reference purposes only. Submitting our work as your own without proper citation may violate academic integrity policies. Review our <a href="#">Terms of Service</a> for guidelines on proper use.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3><i class="fas fa-question-circle"></i> How can I contact customer support?</h3>
+                <p>You can reach our support team 24/7 via:</p>
+                <ul>
+                    <li>Email: <a href="#">support@maestroessay.com</a></li>
+                    <li>Live Chat: Available on our website</li>
+                    <li>Contact Form: Visit our <a href="#">Contact Us</a> page</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">Maestro Essay</a>
+                    <p>We provide top-quality academic writing services with a team of expert writers dedicated to your success.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="service.html">Services</a></li>
+                        <li><a href="index.html#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                        <li><a href="writer.html">Writers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="samples.html">Samples</a></li>
+                        <li><a href="#" class="active">FAQ</a></li>
+                        <li><a href="contact-us.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="refund-policy.html">Refund Policy</a></li>
+                        <li><a href="#">Live Chat</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Maestro Essay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

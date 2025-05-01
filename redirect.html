@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Login - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" onload="this.onload=null;this.rel='stylesheet'" onerror="this.href='local/path/to/font-awesome.css'">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+            background: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Pop-up Modal */
+        .popup {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .popup h2 {
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .popup p {
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+
+        .popup .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .popup .btn:hover,
+        .popup .btn:focus {
+            background: #3a56d4;
+        }
+
+        .popup .loading-spinner {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #718096;
+        }
+
+        /* Animation for Pop-up */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .popup {
+                max-width: 90%;
+                padding: 20px;
+            }
+
+            .popup h2 {
+                font-size: 20px;
+            }
+
+            .popup p {
+                font-size: 14px;
+            }
+        }
+
+        /* Visually Hidden for Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-up Modal -->
+    <div class="popup" role="dialog" aria-labelledby="popup-title" aria-describedby="popup-desc">
+        <h2 id="popup-title">Please Log In</h2>
+        <p id="popup-desc">You need to log in to continue. Redirecting to the login page in a moment...</p>
+        <a href="login.html" class="btn">Go to Login Now</a>
+        <div class="loading-spinner">Redirecting in <span id="countdown">3</span> seconds...</div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let countdown = 3;
+            const countdownElement = document.getElementById('countdown');
+
+            // Update countdown every second
+            const timer = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    window.location.href = 'login.html';
+                }
+            }, 1000);
+
+            // Fallback: Redirect after 4 seconds if timer fails
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 4000);
+        });
+    </script>
+
+    <!-- Noscript Fallback -->
+    <noscript>
+        <meta http-equiv="refresh" content="0;url=login.html">
+        <p>Please enable JavaScript to view this page. You are being redirected to the login page.</p>
+    </noscript>
+</body>
+</html>

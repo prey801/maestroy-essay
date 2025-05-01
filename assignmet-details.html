@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Your Order - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reusing styles from main.css with additions */
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --danger: #f56565;
+        }
+        
+        /* Header styles same as before */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Main order container */
+        .order-container {
+            padding: 150px 0 80px;
+            background: #f8fafc;
+        }
+        
+        .order-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .order-step {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+            position: relative;
+        }
+        
+        .order-step-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #718096;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 10px;
+        }
+        
+        .order-step.active .order-step-number {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .order-step.completed .order-step-number {
+            background: var(--success);
+            color: white;
+        }
+        
+        .order-step-text {
+            font-weight: 600;
+            color: #718096;
+        }
+        
+        .order-step.active .order-step-text {
+            color: var(--dark);
+        }
+        
+        .order-step.completed .order-step-text {
+            color: var(--dark);
+        }
+        
+        .order-step::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: calc(100% + 5px);
+            width: 30px;
+            height: 2px;
+            background: #e2e8f0;
+        }
+        
+        .order-step:last-child::after {
+            display: none;
+        }
+        
+        /* Order summary sidebar */
+        .order-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .order-summary {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+        
+        .order-summary-header {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .order-summary-label {
+            color: #718096;
+        }
+        
+        .order-summary-value {
+            font-weight: 600;
+        }
+        
+        .order-summary-total {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .order-summary-price {
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        /* Order form */
+        .order-form {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+        
+        .order-form-header {
+            margin-bottom: 30px;
+        }
+        
+        .order-form-header h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .order-form-header p {
+            color: #718096;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section-header {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-section-header i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+        }
+        
+        .btn-lg {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+        
+        /* File upload */
+        .file-upload {
+            border: 2px dashed #e2e8f0;
+            border-radius: 5px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary);
+        }
+        
+        .file-upload i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .file-upload p {
+            color: #718096;
+            margin-bottom: 15px;
+        }
+        
+        .file-upload input {
+            display: none;
+        }
+        
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Additional options */
+        .additional-options {
+            margin-top: 30px;
+        }
+        
+        .option-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .option-checkbox input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .option-label {
+            display: flex;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+        
+        .option-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .order-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-summary {
+                position: static;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .order-steps {
+                flex-wrap: wrap;
+            }
+            
+            .order-step {
+                margin: 5px 10px;
+            }
+            
+            .order-step::after {
+                display: none;
+            }
+            
+            .order-step-text {
+                display: none;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column-reverse;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+ 
+
+    <!-- Order Container -->
+    <div class="order-container">
+        <!-- Order Steps -->
+        <div class="order-steps">
+            <div class="order-step completed">
+                <div class="order-step-number">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="order-step-text">Paper Details</div>
+            </div>
+            <div class="order-step active">
+                <div class="order-step-number">2</div>
+                <div class="order-step-text">Order Form</div>
+            </div>
+            <div class="order-step">
+                <div class="order-step-number">3</div>
+                <div class="order-step-text">Payment</div>
+            </div>
+            <div class="order-step">
+                <div class="order-step-number">4</div>
+                <div class="order-step-text">Complete</div>
+            </div>
+        </div>
+        
+        <!-- Order Layout -->
+        <div class="order-layout">
+            <!-- Main Order Form -->
+            <div class="order-form">
+                <div class="order-form-header">
+                    <h2>Complete Your Order</h2>
+                    <p>Fill in the details below to place your order. Our writers will start working on your paper immediately after payment.</p>
+                </div>
+                
+                <form id="maestro-order-form">
+                    <!-- Paper Details Section -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Paper Details</span>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="paper-title">Paper Title*</label>
+                                <input type="text" id="paper-title" class="form-control" required placeholder="e.g., The Impact of Social Media on Modern Communication">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject-area">Subject Area*</label>
+                                <select id="subject-area" class="form-control" required>
+                                    <option value="">Select Subject</option>
+                                    <option value="business">Business</option>
+                                    <option value="economics">Economics</option>
+                                    <option value="literature">Literature</option>
+                                    <option value="history">History</option>
+                                    <option value="psychology">Psychology</option>
+                                    <option value="computer-science">Computer Science</option>
+                                    <option value="engineering">Engineering</option>
+                                    <option value="medicine">Medicine</option>
+                                    <option value="law">Law</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paper-instructions">Paper Instructions*</label>
+                            <textarea id="paper-instructions" class="form-control" required placeholder="Provide detailed instructions for your writer..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Upload Files (Optional)</label>
+                            <div class="file-upload" id="file-upload-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop files here or click to browse</p>
+                                <button type="button" class="btn btn-outline">Select Files</button>
+                                <input type="file" id="file-upload" multiple>
+                                <div class="file-name" id="file-name-display">No files selected</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Writer Preferences Section -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-user-edit"></i>
+                            <span>Writer Preferences</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="writer-level">Writer Level</label>
+                            <select id="writer-level" class="form-control">
+                                <option value="standard">Standard Writer (+$0.00)</option>
+                                <option value="premium">Premium Writer (+$5.00/page)</option>
+                                <option value="top">Top 10 Writer (+$10.00/page)</option>
+                                <option value="native">Native English Writer (+$3.00/page)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="preferred-writer">Preferred Writer ID (Optional)</label>
+                            <input type="text" id="preferred-writer" class="form-control" placeholder="If you want to request a specific writer">
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Options -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Additional Options</span>
+                        </div>
+                        
+                        <div class="additional-options">
+                            <div class="option-checkbox">
+                                <input type="checkbox" id="option-plagiarism" checked>
+                                <div class="option-label">
+                                    <label for="option-plagiarism">Plagiarism Report</label>
+                                    <span class="option-price">+$14.99</span>
+                                </div>
+                            </div>
+                            
+                            <div class="option-checkbox">
+                                <input type="checkbox" id="option-editing">
+                                <div class="option-label">
+                                    <label for="option-editing">Advanced Editing</label>
+                                    <span class="option-price">+$9.99</span>
+                                </div>
+                            </div>
+                            
+                            <div class="option-checkbox">
+                                <input type="checkbox" id="option-formatting">
+                                <div class="option-label">
+                                    <label for="option-formatting">Formatting (APA/MLA/etc.)</label>
+                                    <span class="option-price">+$7.99</span>
+                                </div>
+                            </div>
+                            
+                            <div class="option-checkbox">
+                                <input type="checkbox" id="option-sources">
+                                <div class="option-label">
+                                    <label for="option-sources">Additional Sources</label>
+                                    <span class="option-price">+$12.99</span>
+                                </div>
+                            </div>
+                            
+                            <div class="option-checkbox">
+                                <input type="checkbox" id="option-priority">
+                                <div class="option-label">
+                                    <label for="option-priority">Priority Support</label>
+                                    <span class="option-price">+$9.99</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Account Section -->
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <i class="fas fa-user"></i>
+                            <span>Your Account</span>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address*</label>
+                                <input type="email" id="email" class="form-control" required placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number (Optional)</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="+1 (___) ___-____">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Create Password (Optional)</label>
+                            <input type="password" id="password" class="form-control" placeholder="Only if creating new account">
+                            <small class="form-text">If you don't set a password, we'll email you a temporary login link.</small>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i> Back to Calculator
+                        </button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='payment.html'">
+                            Continue to Payment <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Order Summary Sidebar -->
+            <div class="order-summary">
+                <div class="order-summary-header">
+                    Order Summary
+                </div>
+                
+                <div class="order-summary-item">
+                    <span class="order-summary-label">Type of Paper:</span>
+                    <span class="order-summary-value">Research Paper</span>
+                </div>
+                
+                <div class="order-summary-item">
+                    <span class="order-summary-label">Academic Level:</span>
+                    <span class="order-summary-value">Undergraduate</span>
+                </div>
+                
+                <div class="order-summary-item">
+                    <span class="order-summary-label">Pages:</span>
+                    <span class="order-summary-value">5 (1375 words)</span>
+                </div>
+                
+                <div class="order-summary-item">
+                    <span class="order-summary-label">Urgency:</span>
+                    <span class="order-summary-value">3 days</span>
+                </div>
+                
+                <div class="order-summary-item">
+                    <span class="order-summary-label">Writer Level:</span>
+                    <span class="order-summary-value">Standard</span>
+                </div>
+                
+                <div class="order-summary-item">
+                    <span class="order-summary-label">Plagiarism Report:</span>
+                    <span class="order-summary-value">$14.99</span>
+                </div>
+                
+                <div class="order-summary-total">
+                    <span>Total:</span>
+                    <span class="order-summary-price">$89.98</span>
+                </div>
+                
+                <div class="promo-code" style="margin-top: 20px;">
+                    <label for="promo-code" style="display: block; margin-bottom: 8px;">Promo Code</label>
+                    <div style="display: flex;">
+                        <input type="text" id="promo-code" class="form-control" placeholder="Enter code" style="flex: 1; border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                        <button class="btn btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">Apply</button>
+                    </div>
+                </div>
+                
+                <div class="guarantees" style="margin-top: 30px; font-size: 14px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <i class="fas fa-check-circle" style="color: var(--success); margin-right: 10px;"></i>
+                        <span>100% Confidentiality</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <i class="fas fa-check-circle" style="color: var(--success); margin-right: 10px;"></i>
+                        <span>Plagiarism Free</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <i class="fas fa-check-circle" style="color: var(--success); margin-right: 10px;"></i>
+                        <span>On-Time Delivery</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <i class="fas fa-check-circle" style="color: var(--success); margin-right: 10px;"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // File upload handling
+            const fileUpload = document.getElementById('file-upload');
+            const fileUploadArea = document.getElementById('file-upload-area');
+            const fileNameDisplay = document.getElementById('file-name-display');
+            
+            fileUpload.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    if (this.files.length === 1) {
+                        fileNameDisplay.textContent = this.files[0].name;
+                    } else {
+                        fileNameDisplay.textContent = `${this.files.length} files selected`;
+                    }
+                    fileUploadArea.style.borderColor = 'var(--primary)';
+                } else {
+                    fileNameDisplay.textContent = 'No files selected';
+                    fileUploadArea.style.borderColor = '#e2e8f0';
+                }
+            });
+            
+            // Allow drag and drop
+            fileUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = 'var(--primary)';
+                this.style.backgroundColor = 'rgba(74, 107, 255, 0.05)';
+            });
+            
+            fileUploadArea.addEventListener('dragleave', function() {
+                this.style.borderColor = '#e2e8f0';
+                this.style.backgroundColor = 'transparent';
+            });
+            
+            fileUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#e2e8f0';
+                this.style.backgroundColor = 'transparent';
+                
+                if (e.dataTransfer.files.length) {
+                    fileUpload.files = e.dataTransfer.files;
+                    const event = new Event('change');
+                    fileUpload.dispatchEvent(event);
+                }
+            });
+            
+            // Click to select files
+            fileUploadArea.addEventListener('click', function() {
+                fileUpload.click();
+            });
+            
+            // Form submission
+            const orderForm = document.getElementById('maestro-order-form');
+            orderForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real implementation, this would validate and submit the form
+                alert('Order submitted! Redirecting to payment...');
+                // window.location.href = '/payment';
+            });
+            
+            // Update summary when options change
+            const writerLevel = document.getElementById('writer-level');
+            const options = document.querySelectorAll('.additional-options input');
+            
+            function updateSummary() {
+                // In a real implementation, this would update the order summary
+                // based on selected options
+                console.log('Updating summary...');
+            }
+            
+            writerLevel.addEventListener('change', updateSummary);
+            options.forEach(option => {
+                option.addEventListener('change', updateSummary);
+            });
+        });
+    </script>
+
+</body>
+</html>

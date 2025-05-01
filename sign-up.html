@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --danger: #f56565;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        /* Signup Container */
+        .signup-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        
+        .signup-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        
+        .signup-right {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, #6b8cff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 40px;
+        }
+        
+        /* Signup Form */
+        .signup-form {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .signup-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .signup-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .signup-header p {
+            color: #718096;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .password-wrapper {
+            position: relative;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+            cursor: pointer;
+        }
+        
+        .password-strength {
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--danger);
+            transition: width 0.3s, background 0.3s;
+        }
+        
+        .password-hints {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 5px;
+        }
+        
+        .password-hints ul {
+            list-style: none;
+            margin-top: 5px;
+        }
+        
+        .password-hints li {
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .password-hints li i {
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        
+        .password-hints li.valid {
+            color: var(--success);
+        }
+        
+        .terms-agreement {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .terms-agreement input {
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        .terms-agreement label {
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .terms-agreement a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .terms-agreement a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+        }
+        
+        .btn-google {
+            background: white;
+            color: var(--dark);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .btn-google:hover {
+            background: #f8fafc;
+        }
+        
+        .btn-google i {
+            margin-right: 10px;
+            color: #db4437;
+            font-size: 18px;
+        }
+        
+        .signup-divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #718096;
+        }
+        
+        .signup-divider::before,
+        .signup-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .signup-divider::before {
+            margin-right: 10px;
+        }
+        
+        .signup-divider::after {
+            margin-left: 10px;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #718096;
+        }
+        
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Signup Right Content */
+        .signup-benefits {
+            max-width: 500px;
+        }
+        
+        .signup-benefits h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            margin-bottom: 25px;
+        }
+        
+        .benefit-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .benefit-text h3 {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .benefit-text p {
+            opacity: 0.9;
+            font-size: 15px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .signup-right {
+                display: none;
+            }
+            
+            .signup-left {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .signup-form {
+                padding: 30px 20px;
+            }
+            
+            .name-fields {
+                flex-direction: column;
+            }
+            
+            .name-fields .form-group {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-pen-fancy"></i>
+                <span>Maestro Essay</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="index.html#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                    <li><a href="writer.html">Writers</a></li>
+                    <li><a href="samples.html">Samples</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Signup Container -->
+    <div class="signup-container">
+        <!-- Signup Form -->
+        <div class="signup-left">
+            <div class="signup-form">
+                <div class="signup-header">
+                    <h1>Create Your Account</h1>
+                    <p>Join thousands of students getting quality academic help</p>
+                </div>
+                
+                <button class="btn btn-google">
+                    <i class="fab fa-google"></i> Sign up with Google
+                </button>
+                
+                <div class="signup-divider">
+                    or sign up with email
+                </div>
+                
+                <form id="maestro-signup-form">
+                    <div class="form-row name-fields" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" class="form-control" placeholder="John" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" id="last-name" class="form-control" placeholder="Doe" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                            <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                        </div>
+                        <div class="password-hints">
+                            <p>Your password should contain:</p>
+                            <ul>
+                                <li id="lengthHint"><i class="far fa-circle"></i> At least 8 characters</li>
+                                <li id="numberHint"><i class="far fa-circle"></i> At least 1 number</li>
+                                <li id="specialHint"><i class="far fa-circle"></i> At least 1 special character</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                            <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
+                        </div>
+                        <div id="passwordMatch" style="font-size: 13px; color: var(--danger); margin-top: 5px; display: none;">
+                            <i class="fas fa-exclamation-circle"></i> Passwords don't match
+                        </div>
+                    </div>
+                    
+                    <div class="terms-agreement">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and I confirm that I am at least 18 years old.</label>
+                    </div>
+                    
+                    <div class="terms-agreement">
+                        <input type="checkbox" id="marketing">
+                        <label for="marketing">I want to receive occasional emails about new features, promotions, and special offers.</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" id="signupButton">Create Account</button>
+                    
+                    <div class="login-link">
+                        Already have an account? <a href="#">Log in</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Signup Right Content -->
+        <div class="signup-right">
+            <div class="signup-benefits">
+                <h2>Why Join Maestro Essay?</h2>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <h3>Premium Quality</h3>
+                        <p>Access our network of expert writers with advanced degrees in various fields.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <h3>On-Time Delivery</h3>
+                        <p>97% of orders are delivered by the deadline with our satisfaction guarantee.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <h3>Complete Confidentiality</h3>
+                        <p>Your personal information and order details are always protected.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="benefit-text">
+                        <h3>24/7 Support</h3>
+                        <p>Our customer support team is available anytime you need assistance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password toggle functionality
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+            const confirmPassword = document.getElementById('confirm-password');
+    
+            if (togglePassword && password) {
+                togglePassword.addEventListener('click', function() {
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    this.classList.toggle('fa-eye-slash');
+                });
+            }
+    
+            if (toggleConfirmPassword && confirmPassword) {
+                toggleConfirmPassword.addEventListener('click', function() {
+                    const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                    confirmPassword.setAttribute('type', type);
+                    this.classList.toggle('fa-eye-slash');
+                });
+            }
+    
+            // Password strength checker
+            if (password) {
+                password.addEventListener('input', function() {
+                    const strengthBar = document.getElementById('passwordStrengthBar');
+                    const passwordValue = this.value;
+                    let strength = 0;
+    
+                    // Length check
+                    const lengthHint = document.getElementById('lengthHint');
+                    if (lengthHint) {
+                        if (passwordValue.length >= 8) {
+                            strength += 25;
+                            lengthHint.classList.add('valid');
+                            lengthHint.innerHTML = '<i class="fas fa-check-circle"></i> At least 8 characters';
+                        } else {
+                            lengthHint.classList.remove('valid');
+                            lengthHint.innerHTML = '<i class="far fa-circle"></i> At least 8 characters';
+                        }
+                    }
+    
+                    // Number check
+                    const numberHint = document.getElementById('numberHint');
+                    if (numberHint) {
+                        if (/\d/.test(passwordValue)) {
+                            strength += 25;
+                            numberHint.classList.add('valid');
+                            numberHint.innerHTML = '<i class="fas fa-check-circle"></i> At least 1 number';
+                        } else {
+                            numberHint.classList.remove('valid');
+                            numberHint.innerHTML = '<i class="far fa-circle"></i> At least 1 number';
+                        }
+                    }
+    
+                    // Special character check
+                    const specialHint = document.getElementById('specialHint');
+                    if (specialHint) {
+                        if (/[!@#$%^&*(),.?":{}|<>]/.test(passwordValue)) {
+                            strength += 25;
+                            specialHint.classList.add('valid');
+                            specialHint.innerHTML = '<i class="fas fa-check-circle"></i> At least 1 special character';
+                        } else {
+                            specialHint.classList.remove('valid');
+                            specialHint.innerHTML = '<i class="far fa-circle"></i> At least 1 special character';
+                        }
+                    }
+    
+                    // Uppercase letter check
+                    if (/[A-Z]/.test(passwordValue)) {
+                        strength += 25;
+                    }
+    
+                    // Update strength bar
+                    if (strengthBar) {
+                        strengthBar.style.width = strength + '%';
+    
+                        if (strength < 50) {
+                            strengthBar.style.background = 'var(--danger)';
+                        } else if (strength < 75) {
+                            strengthBar.style.background = 'var(--warning)';
+                        } else {
+                            strengthBar.style.background = 'var(--success)';
+                        }
+                    }
+                });
+            }
+    
+            // Password match checker
+            if (confirmPassword) {
+                confirmPassword.addEventListener('input', function() {
+                    const passwordMatch = document.getElementById('passwordMatch');
+                    if (passwordMatch) {
+                        if (this.value !== password.value && this.value.length > 0) {
+                            passwordMatch.style.display = 'block';
+                        } else {
+                            passwordMatch.style.display = 'none';
+                        }
+                    }
+                });
+            }
+    
+            // Form submission
+            const signupForm = document.getElementById('maestro-signup-form');
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+    
+                    const firstName = document.getElementById('first-name')?.value.trim();
+                    const lastName = document.getElementById('last-name')?.value.trim();
+                    const email = document.getElementById('email')?.value.trim();
+                    const passwordVal = password?.value;
+                    const confirmPasswordVal = confirmPassword?.value;
+                    const termsChecked = document.getElementById('terms')?.checked;
+    
+                    if (!passwordVal || !confirmPasswordVal) {
+                        alert('Password fields cannot be empty.');
+                        return;
+                    }
+    
+                    if (passwordVal !== confirmPasswordVal) {
+                        alert('Passwords do not match!');
+                        return;
+                    }
+    
+                    if (!termsChecked) {
+                        alert('You must agree to the Terms of Service and Privacy Policy');
+                        return;
+                    }
+    
+                    console.log('Signup form submitted:', {
+                        firstName,
+                        lastName,
+                        email,
+                        password: passwordVal,
+                        termsAccepted: termsChecked,
+                        marketingOptIn: document.getElementById('marketing')?.checked
+                    });
+    
+                    alert('Account created successfully! Redirecting to dashboard...');
+                    // window.location.href = '/dashboard';
+                });
+            }
+    
+            // Google signup button
+            const googleButton = document.querySelector('.btn-google');
+            if (googleButton) {
+                googleButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Google signup initiated');
+                    // Trigger Google OAuth flow here
+                });
+            }
+        });
+    </script>
+    <script src="js/scroll-offset.js"></script>
+</body>
+</html>

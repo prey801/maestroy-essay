@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" onload="this.onload=null;this.rel='stylesheet'" onerror="this.href='local/path/to/font-awesome.css'">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, #7b92ff 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            color: var(--primary);
+        }
+
+        .auth-buttons .btn {
+            margin-left: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover,
+        .btn-outline:focus {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background: linear-gradient(135deg, #3a56d4 0%, #6a80e6 100%);
+            transform: translateY(-2px);
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 150px 0 100px;
+            background: linear-gradient(180deg, #f5f7ff 0%, var(--light) 100%);
+            text-align: center;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-header h1 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: #4a5568;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.5s ease forwards;
+            animation-delay: calc(0.2s * var(--step));
+        }
+
+        .step:hover,
+        .step:focus {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-right: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .step-content {
+            text-align: left;
+        }
+
+        .step-content h3 {
+            font-size: 22px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .step-content p {
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            margin-top: 60px;
+        }
+
+        .cta-section .btn {
+            font-size: 18px;
+            padding: 15px 30px;
+            box-shadow: 0 5px 15px rgba(74, 107, 255, 0.4);
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-about p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .social-links a:hover,
+        .social-links a:focus {
+            opacity: 1;
+        }
+
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links ul li a:hover,
+        .footer-links ul li a:focus {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .disclaimer {
+            margin-top: 20px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        [id] {
+            scroll-margin-top: 110px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+
+            nav ul {
+                margin: 15px 0;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .auth-buttons {
+                margin-top: 15px;
+            }
+
+            .how-it-works {
+                padding: 150px 0 80px;
+            }
+
+            .section-header h1 {
+                font-size: 28px;
+            }
+
+            .section-header p {
+                font-size: 16px;
+            }
+
+            .step {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .step-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .step-content {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section-header h1 {
+                font-size: 24px;
+            }
+
+            .step-icon {
+                font-size: 36px;
+            }
+
+            .step-content h3 {
+                font-size: 18px;
+            }
+        }
+
+        /* Visually Hidden for Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-pen-fancy" aria-hidden="true"></i>
+                <span>Maestro Essays</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="index.html#prices">Prices</a></li>
+                    <li><a href="writer.html">Writers</a></li>
+                    <li><a href="samples.html">Samples</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="login-btn">Login</button>
+                <button class="btn btn-primary" id="signup-btn">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h1>How It Works</h1>
+                <p>Ordering a paper with Maestro Essay is simple and straightforward. Follow these easy steps to get high-quality academic writing tailored to your needs.</p>
+            </div>
+            <div class="steps-container">
+                <div class="step" style="--step: 1;">
+                    <div class="step-icon">
+                        <i class="fas fa-file-alt" aria-hidden="true"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Step 1: Place Your Order</h3>
+                        <p>Fill out our order form with details about your paper, including the type, academic level, number of pages, and deadline. Upload any additional materials or instructions.</p>
+                    </div>
+                </div>
+                <div class="step" style="--step: 2;">
+                    <div class="step-icon">
+                        <i class="fas fa-user-check" aria-hidden="true"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Step 2: Writer Assignment</h3>
+                        <p>We match your order with a qualified writer who specializes in your subject area. You can communicate with your writer for any clarifications.</p>
+                    </div>
+                </div>
+                <div class="step" style="--step: 3;">
+                    <div class="step-icon">
+                        <i class="fas fa-edit" aria-hidden="true"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Step 3: Writing & Quality Check</h3>
+                        <p>Your writer crafts a custom paper from scratch, followed by a thorough quality check to ensure originality, accuracy, and adherence to your instructions.</p>
+                    </div>
+                </div>
+                <div class="step" style="--step: 4;">
+                    <div class="step-icon">
+                        <i class="fas fa-download" aria-hidden="true"></i>
+                    </div>
+                    <div class="step-content">
+                        <h3>Step 4: Download Your Paper</h3>
+                        <p>Receive your completed paper by the deadline. Review it and request free revisions if needed. Download the final version from your account.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cta-section">
+                <a href="index.html#prices" class="btn btn-primary">Get Started Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <i class="fas fa-pen-fancy" aria-hidden="true"></i> Maestro Essays
+                    </div>
+                    <p>Providing premium academic writing services since 2015. Our team of expert writers delivers high-quality, custom-written papers to students worldwide.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="disclaimer">
+                        <p>Our services are intended for reference purposes only. Please adhere to your institution's academic integrity policies.</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Essay Writing</a></li>
+                        <li><a href="#">Research Papers</a></li>
+                        <li><a href="#">Dissertations</a></li>
+                        <li><a href="#">Theses</a></li>
+                        <li><a href="#">Editing & Proofreading</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Writers</a></li>
+                        <li><a href="#">Testimonials</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Money Back Guarantee</a></li>
+                        <li><a href="revision-policy.html">Revision Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 Maestro Essay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tawk.to Script -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/680e14d2429e411905b995fa/1iprg2mgh';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to use our chat support.</noscript>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navigation
+            document.getElementById('login-btn').addEventListener('click', () => {
+                window.location.href = 'redirect.html';
+            });
+            document.getElementById('signup-btn').addEventListener('click', () => {
+                window.location.href = 'sign-up.html';
+            });
+
+            // Add animation trigger when steps are in viewport
+            const steps = document.querySelectorAll('.step');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            steps.forEach(step => observer.observe(step));
+        });
+    </script>
+</body>
+</html>

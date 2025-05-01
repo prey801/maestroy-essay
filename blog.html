@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --gray: #718096;
+            --light-gray: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+        }
+        
+        /* Hero Section */
+        .blog-hero {
+            padding: 180px 0 80px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #f9f9f9 100%);
+            text-align: center;
+        }
+        
+        .blog-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .blog-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: var(--gray);
+        }
+        
+        /* Blog Content */
+        .blog-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+            padding: 60px 0;
+        }
+        
+        /* Main Articles */
+        .articles-container {
+            margin-bottom: 50px;
+        }
+        
+        .article-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .article-image {
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .article-card:hover .article-image img {
+            transform: scale(1.05);
+        }
+        
+        .article-content {
+            padding: 30px;
+        }
+        
+        .article-meta {
+            display: flex;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .article-meta span {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .article-meta i {
+            margin-right: 5px;
+        }
+        
+        .article-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .article-title a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .article-title a:hover {
+            color: var(--primary);
+        }
+        
+        .article-excerpt {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .article-tag {
+            background: var(--light-gray);
+            color: var(--dark);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .article-tag:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .read-more i {
+            margin-left: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .read-more:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        
+        .pagination-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--light-gray);
+            background: white;
+        }
+        
+        .pagination-button:hover {
+            background: var(--light-gray);
+        }
+        
+        .pagination-button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar-widget {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .widget-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+            position: relative;
+        }
+        
+        .widget-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        /* Search Widget */
+        .search-form {
+            position: relative;
+        }
+        
+        .search-form input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .search-form button {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+        }
+        
+        /* Categories Widget */
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-item {
+            margin-bottom: 10px;
+        }
+        
+        .category-link {
+            display: flex;
+            justify-content: space-between;
+            color: var(--dark);
+            text-decoration: none;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+        
+        .category-link:hover {
+            color: var(--primary);
+        }
+        
+        .category-count {
+            background: var(--light-gray);
+            color: var(--dark);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        /* Popular Posts Widget */
+        .popular-post {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .popular-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .popular-post-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .popular-post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .popular-post-title {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .popular-post-title a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .popular-post-title a:hover {
+            color: var(--primary);
+        }
+        
+        .popular-post-date {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        /* Tags Widget */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tag-link {
+            background: var(--light-gray);
+            color: var(--dark);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .tag-link:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Newsletter Widget */
+        .newsletter-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .newsletter-form button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .newsletter-form button:hover {
+            background: #3a56d4;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, #6b8cff 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-content p {
+            opacity: 0.9;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+            color: #dcdcdc;
+        }
+        
+        .footer-about p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .social-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links ul li a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .blog-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+                margin-top: 50px;
+            }
+            
+            .blog-hero h1 {
+                font-size: 36px;
+            }
+            
+            .blog-hero p {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin: 15px 0;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+            
+            .cta-content h2 {
+                font-size: 30px;
+            }
+        }
+        /* Popup Styles */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+    backdrop-filter: blur(4px); /* Blur effect (supported browsers) */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* For fade-in animation */
+    transition: opacity 0.3s ease;
+}
+
+.popup.active {
+    display: flex;
+    opacity: 1;
+}
+
+.popup-content {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa); /* Subtle gradient */
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Softer, deeper shadow */
+    position: relative;
+    transform: scale(0.7); /* Start scaled down for animation */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.popup.active .popup-content {
+    transform: scale(1); /* Scale to normal size */
+    opacity: 1;
+}
+
+.popup-content h2 {
+    margin: 0 0 10px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1a1a; /* Darker for contrast */
+    letter-spacing: -0.02em;
+}
+
+.popup-content p {
+    color: #4a4a4a;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.popup-content input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.popup-content input[type="email"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.6rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    transform: translateX(10px); /* Start slightly off for animation */
+}
+
+.popup.active .close-btn {
+    transform: translateX(0);
+}
+
+.close-btn:hover {
+    color: #1a1a1a;
+    transform: scale(1.2); /* Slight scale on hover */
+}
+
+/* Button Styles (Override for Popup) */
+.btn-primary {
+    background: linear-gradient(90deg, #007bff, #0056b3); /* Gradient button */
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .popup-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .popup-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .popup-content p {
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-pen-fancy"></i>
+                <span>Maestro Essay</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="index.html#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                    <li><a href="writer.html">Writers</a></li>
+                    <li><a href="samples.html">Samples</a></li>
+                    <li><a href="blog.html" class="active">Blog</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" onclick="location.href='login.html'">Login</button>
+                <button class="btn btn-primary" onclick="location.href='sign-up.html'">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="blog-hero">
+        <div class="container">
+            <h1>Maestro Essay Blog</h1>
+            <p>Expert tips, guides, and insights to help you succeed in your academic journey</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="showPopup()">Subscribe to Newsletter</button>
+                <button class="btn btn-outline">Browse Topics</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Popup Modal -->
+    <div id="subscribePopup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="hidePopup()">&times;</span>
+            <h2>Subscribe to Our Newsletter</h2>
+            <p>Get the latest tips and insights directly to your inbox!</p>
+            <form id="subscribeForm" onsubmit="handleSubmit(event)">
+                <input type="email" id="emailInput" placeholder="Enter your email address" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Blog Content -->
+    <div class="container blog-content">
+        <!-- Main Articles -->
+        <main class="articles-container">
+            <!-- Article 1 -->
+            <article class="article-card">
+                <div class="article-image">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="How to Write a Research Paper">
+                </div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar-alt"></i> June 15, 2023</span>
+                        <span><i class="far fa-user"></i> Dr. Emily Carter</span>
+                            <span><i class="far fa-clock"></i> 8 min read</span>
+                    </div>
+                    <h2 class="article-title"><a href="#">How to Write a Stellar Research Paper</a></h2>
+                    <p class="article-excerpt">Learn the step-by-step process to craft a compelling research paper that impresses your professors and earns top grades.</p>
+                    <div class="article-tags">
+                        <a href="#" class="article-tag">Research</a>
+                        <a href="#" class="article-tag">Writing Tips</a>
+                        <a href="#" class="article-tag">Academic</a>
+                    </div>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="article-card">
+                <div class="article-image">
+                    <img src="https://i.pinimg.com/736x/cb/64/7e/cb647e178bbccfb7498002aa2d070f18.jpg" alt="Essay Writing Mistakes">
+                </div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar-alt"></i> June 10, 2023</span>
+                        <span><i class="far fa-user"></i> Prof. James Wilson</span>
+                        <span><i class="far fa-clock"></i> 6 min read</span>
+                    </div>
+                    <h2 class="article-title"><a href="#">Top 5 Essay Writing Mistakes to Avoid</a></h2>
+                    <p class="article-excerpt">Discover common pitfalls in essay writing and how to steer clear of them for better grades.</p>
+                    <div class="article-tags">
+                        <a href="#" class="article-tag">Essay Writing</a>
+                        <a href="#" class="article-tag">Tips</a>
+                        <a href="#" class="article-tag">Mistakes</a>
+                    </div>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <!-- Article 3 -->
+            <article class="article-card">
+                <div class="article-image">
+                    <img src="https://prh.imgix.net/articles/mostpopularbooksof2024-1600x800.jpg" alt="Citation Guide">
+                </div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span><i class="far fa-calendar-alt"></i> June 5, 2023</span>
+                        <span><i class="far fa-user"></i> Dr. Sarah Thompson</span>
+                        <span><i class="far fa-clock"></i> 7 min read</span>
+                    </div>
+                    <h2 class="article-title"><a href="#">The Ultimate Guide to APA and MLA Citations</a></h2>
+                    <p class="article-excerpt">Master the art of citing sources with our comprehensive guide to APA and MLA formats.</p>
+                    <div class="article-tags">
+                        <a href="#" class="article-tag">Citations</a>
+                        <a href="#" class="article-tag">APA</a>
+                        <a href="#" class="article-tag">MLA</a>
+                    </div>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <div class="pagination-button active">1</div>
+                <div class="pagination-button">2</div>
+                <div class="pagination-button">3</div>
+                <div class="pagination-button"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Search Widget -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Search</h3>
+                <form class="search-form">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                    <input type="text" placeholder="Search blog posts...">
+                </form>
+            </div>
+
+            <!-- Categories Widget -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Categories</h3>
+                <ul class="category-list">
+                    <li class="category-item">
+                        <a href="#" class="category-link">Essay Writing <span class="category-count">12</span></a>
+                    </li>
+                    <li class="category-item">
+                        <a href="#" class="category-link">Research Papers <span class="category-count">8</span></a>
+                    </li>
+                    <li class="category-item">
+                        <a href="#" class="category-link">Citations <span class="category-count">5</span></a>
+                    </li>
+                    <li class="category-item">
+                        <a href="#" class="category-link">Study Tips <span class="category-count">10</span></a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Popular Posts Widget -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Popular Posts</h3>
+                <div class="popular-post">
+                    <div class="popular-post-image">
+                        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Popular Post">
+                    </div>
+                    <div class="popular-post-content">
+                        <h4 class="popular-post-title"><a href="#">How to Write a Research Paper</a></h4>
+                        <div class="popular-post-date">June 15, 2023</div>
+                    </div>
+                </div>
+                <div class="popular-post">
+                    <div class="popular-post-image">
+                        <img src="https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg?semt=ais_hybrid&w=740" alt="Popular Post">
+                    </div>
+                    <div class="popular-post-content">
+                        <h4 class="popular-post-title"><a href="#">Essay Writing Mistakes</a></h4>
+                        <div class="popular-post-date">June 10, 2023</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tags Widget -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Tags</h3>
+                <div class="tags-container">
+                    <a href="#" class="tag-link">Essay</a>
+                    <a href="#" class="tag-link">Research</a>
+                    <a href="#" class="tag-link">Citations</a>
+                    <a href="#" class="tag-link">Study Tips</a>
+                    <a href="#" class="tag-link">Academic</a>
+                </div>
+            </div>
+
+            <!-- Newsletter Widget -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Newsletter</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button class="btn btn-primary" onclick="showPopup()">Subscribe</button>
+                </form>
+            </div>
+        </aside>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container cta-content">
+            <h2>Ready to Excel in Your Academic Journey?</h2>
+            <p>Join thousands of students who trust Maestro Essay for top-quality academic writing services.</p>
+            <button class="btn btn-primary">Get Started Now</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-about">
+                <a href="#" class="footer-logo">Maestro Essay</a>
+                <p>Empowering students with expert academic writing services since 2010.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="FAGS.html">FAQ</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Writing Guides</a></li>
+                    <li><a href="#">Citation Help</a></li>
+                    <li><a href="#">Study Tips</a></li>
+                    <li><a href="#">Free Samples</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Maestro Essay. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        // Show the popup
+function showPopup() {
+    const popup = document.getElementById('subscribePopup');
+    popup.classList.add('active');
+}
+
+// Hide the popup
+function hidePopup() {
+    const popup = document.getElementById('subscribePopup');
+    popup.classList.remove('active');
+    document.getElementById('subscribeForm').reset(); // Reset form on close
+}
+
+// Handle form submission
+function handleSubmit(event) {
+    event.preventDefault(); // Prevent default form submission
+    const email = document.getElementById('emailInput').value;
+    
+    // Replace this with your actual subscription logic (e.g., API call)
+    console.log('Subscribed with email:', email);
+    alert('Thank you for subscribing!');
+
+    // Close the popup after submission
+    hidePopup();
+}
+
+// Optional: Close popup when clicking outside the popup content
+document.getElementById('subscribePopup').addEventListener('click', function(event) {
+    if (event.target === this) {
+        hidePopup();
+    }
+});
+    </script>
+</body>
+</html>

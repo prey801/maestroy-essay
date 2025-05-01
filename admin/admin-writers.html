@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writers - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --primary-light: rgba(74, 107, 255, 0.1);
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --dark-light: #4a5568;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --danger: #f56565;
+            --sidebar-width: 250px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar-logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .sidebar-menu {
+            padding: 15px 0;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--dark-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        
+        .menu-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+        
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .menu-item .badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+        
+        .menu-divider {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #a0aec0;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s;
+        }
+        
+        /* Top Navigation */
+        .top-nav {
+            background: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--dark-light);
+        }
+        
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-icon {
+            position: relative;
+            margin-right: 20px;
+            color: var(--dark-light);
+            cursor: pointer;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        
+        /* Writers Content */
+        .writers-content {
+            padding: 25px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .page-title p {
+            color: var(--dark-light);
+            font-size: 14px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+        
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-group label {
+            font-size: 14px;
+            color: var(--dark-light);
+            font-weight: 600;
+        }
+        
+        .filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 14px;
+            min-width: 150px;
+        }
+        
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Writers Table */
+        .writers-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .table-title {
+            font-weight: 600;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 12px 15px;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--dark-light);
+            font-weight: 600;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .writer-name {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .writer-name:hover {
+            text-decoration: underline;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: #c6f6d5;
+            color: #276749;
+        }
+        
+        .status-inactive {
+            background: #fed7d7;
+            color: #9b2c2c;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .action-btn {
+            padding: 6px;
+            border-radius: 5px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: #e2e8f0;
+        }
+        
+        .table-pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .pagination-info {
+            font-size: 13px;
+            color: var(--dark-light);
+        }
+        
+        .pagination-controls {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .pagination-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 5px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pagination-btn:hover {
+            background: #f8fafc;
+        }
+        
+        .pagination-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .close-btn {
+            font-size: 20px;
+            color: var(--dark-light);
+            cursor: pointer;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark-light);
+            margin-bottom: 5px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .filters {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-bar {
+                width: 200px;
+            }
+            
+            .filter-group select {
+                min-width: 100px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .search-bar {
+                display: none;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .table-actions {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-pen-fancy"></i>
+                <span>Maestro Admin</span>
+            </div>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-divider">Main</div>
+            <a href="admin.html" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <div class="menu-divider">Management</div>
+            <a href="orders.html" class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                <span>Orders</span>
+                <span class="badge">5</span>
+            </a>
+            <a href="clients.html" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Clients</span>
+            </a>
+            <a href="writers.html" class="menu-item active">
+                <i class="fas fa-user-tie"></i>
+                <span>Writers</span>
+                <span class="badge">3</span>
+            </a>
+            <a href="payments.html" class="menu-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Payments</span>
+            </a>
+            
+            <div class="menu-divider">Content</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>Samples</span>
+            </a>
+            <a href="blog.html" class="menu-item">
+                <i class="fas fa-blog"></i>
+                <span>Blog</span>
+            </a>
+            
+            <div class="menu-divider">System</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-headset"></i>
+                <span>Support</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search writers...">
+            </div>
+            
+            <div class="user-menu">
+                <div class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">4</div>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">JD</div>
+                    <span class="user-name">John Doe</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Writers Content -->
+        <div class="writers-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>Writers</h1>
+                    <p>Manage writers and their assignments</p>
+                </div>
+                <button class="btn btn-primary">Add New Writer</button>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="status-filter">Status</label>
+                    <select id="status-filter">
+                        <option value="all">All</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Writers Table -->
+            <div class="writers-table">
+                <div class="table-header">
+                    <div class="table-title">Writers List</div>
+                    <div class="table-actions">
+                        <button class="btn btn-primary">Export</button>
+                        <button class="btn btn-primary">Bulk Actions</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Assigned Orders</th>
+                            <th>Total Pay</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#" class="writer-name">Alice Johnson</a></td>
+                            <td>5</td>
+                            <td>$1,250.00</td>
+                            <td>+1 (555) 123-4567</td>
+                            <td>alice.johnson@example.com</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="action-btn edit-writer" title="Edit" data-id="W001" data-name="Alice Johnson" data-phone="+1 (555) 123-4567" data-email="alice.johnson@example.com"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn" title="Deactivate" data-id="W001"><i class="fas fa-ban"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" class="writer-name">Bob Smith</a></td>
+                            <td>3</td>
+                            <td>$750.00</td>
+                            <td>+1 (555) 987-6543</td>
+                            <td>bob.smith@example.com</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="action-btn edit-writer" title="Edit" data-id="W002" data-name="Bob Smith" data-phone="+1 (555) 987-6543" data-email="bob.smith@example.com"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn" title="Deactivate" data-id="W002"><i class="fas fa-ban"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" class="writer-name">Clara Davis</a></td>
+                            <td>2</td>
+                            <td>$500.00</td>
+                            <td>+1 (555) 456-7890</td>
+                            <td>clara.davis@example.com</td>
+                            <td><span class="status-badge status-inactive">Inactive</span></td>
+                            <td class="action-buttons">
+                                <button class="action-btn edit-writer" title="Edit" data-id="W003" data-name="Clara Davis" data-phone="+1 (555) 456-7890" data-email="clara.davis@example.com"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn" title="Activate" data-id="W003"><i class="fas fa-check"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" class="writer-name">David Wilson</a></td>
+                            <td>4</td>
+                            <td>$1,000.00</td>
+                            <td>+1 (555) 321-9876</td>
+                            <td>david.wilson@example.com</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="action-btn edit-writer" title="Edit" data-id="W004" data-name="David Wilson" data-phone="+1 (555) 321-9876" data-email="david.wilson@example.com"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn" title="Deactivate" data-id="W004"><i class="fas fa-ban"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-pagination">
+                    <div class="pagination-info">Showing 1-4 of 15 writers</div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Writer Modal -->
+    <div class="modal" id="edit-writer-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Writer</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <form id="edit-writer-form">
+                <div class="form-group">
+                    <label for="writer-id">Writer ID</label>
+                    <input type="text" id="writer-id" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="writer-name">Name</label>
+                    <input type="text" id="writer-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="writer-phone">Phone</label>
+                    <input type="tel" id="writer-phone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="writer-email">Email</label>
+                    <input type="email" id="writer-email" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle for mobile
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-bar input');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            // Implement search logic (e.g., filter table rows by name or email)
+            console.log('Searching writers for:', searchTerm);
+        });
+
+        // Status filter
+        const statusFilter = document.querySelector('#status-filter');
+        statusFilter.addEventListener('change', (e) => {
+            const status = e.target.value;
+            // Implement status filter logic
+            console.log('Filtering by status:', status);
+        });
+
+        // Notification click handler
+        const notificationIcon = document.querySelector('.notification-icon');
+        notificationIcon.addEventListener('click', () => {
+            // Implement notification view logic
+            console.log('Notifications clicked');
+        });
+
+        // User profile dropdown
+        const userProfile = document.querySelector('.user-profile');
+        userProfile.addEventListener('click', () => {
+            // Implement dropdown menu logic
+            console.log('User profile clicked');
+        });
+
+        // Pagination controls
+        const paginationButtons = document.querySelectorAll('.pagination-btn');
+        paginationButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                paginationButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                // Implement pagination logic
+                console.log('Page changed:', button.textContent);
+            });
+        });
+
+        // Export button
+        const exportButton = document.querySelector('.table-actions .btn:first-child');
+        exportButton.addEventListener('click', () => {
+            // Implement export logic
+            console.log('Export writers clicked');
+        });
+
+        // Bulk actions button
+        const bulkActionsButton = document.querySelector('.table-actions .btn:last-child');
+        bulkActionsButton.addEventListener('click', () => {
+            // Implement bulk actions logic
+            console.log('Bulk actions clicked');
+        });
+
+        // Add new writer button
+        const addWriterButton = document.querySelector('.page-header .btn-primary');
+        addWriterButton.addEventListener('click', () => {
+            // Implement add writer logic (e.g., open a modal or redirect)
+            console.log('Add new writer clicked');
+        });
+
+        // Edit writer modal
+        const editModal = document.getElementById('edit-writer-modal');
+        const closeBtn = document.querySelector('.close-btn');
+        const editForm = document.getElementById('edit-writer-form');
+        
+        const editButtons = document.querySelectorAll('.edit-writer');
+        editButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const writerId = button.dataset.id;
+                const writerName = button.dataset.name;
+                const writerPhone = button.dataset.phone;
+                const writerEmail = button.dataset.email;
+                
+                document.getElementById('writer-id').value = writerId;
+                document.getElementById('writer-name').value = writerName;
+                document.getElementById('writer-phone').value = writerPhone;
+                document.getElementById('writer-email').value = writerEmail;
+                
+                editModal.style.display = 'flex';
+            });
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            editModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === editModal) {
+                editModal.style.display = 'none';
+            }
+        });
+        
+        editForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = {
+                id: document.getElementById('writer-id').value,
+                name: document.getElementById('writer-name').value,
+                phone: document.getElementById('writer-phone').value,
+                email: document.getElementById('writer-email').value
+            };
+            console.log('Updated writer:', formData);
+            // Implement backend API call to update writer
+            editModal.style.display = 'none';
+            editForm.reset();
+        });
+
+        // Action buttons (Deactivate/Activate)
+        const actionButtons = document.querySelectorAll('.action-btn:not(.edit-writer)');
+        actionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const action = button.title;
+                const writerId = button.dataset.id;
+                console.log(`${action} writer: ${writerId}`);
+                // Implement action logic (e.g., deactivate/activate writer)
+            });
+        });
+    </script>
+</body>
+</html>

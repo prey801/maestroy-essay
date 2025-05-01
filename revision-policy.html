@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revision Policy - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" onload="this.onload=null;this.rel='stylesheet'" onerror="this.href='local/path/to/font-awesome.css'">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            color: var(--primary);
+        }
+
+        .auth-buttons .btn {
+            margin-left: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover,
+        .btn-outline:focus {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background: #3a56d4;
+        }
+
+        /* Main Content */
+        .policy-section {
+            padding: 150px 0 100px;
+            background: var(--light);
+        }
+
+        .policy-section .container {
+            max-width: 900px;
+        }
+
+        .policy-section h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            text-align: center;
+        }
+
+        .policy-section h2 {
+            font-size: 24px;
+            margin: 30px 0 15px;
+            color: var(--dark);
+        }
+
+        .policy-section p {
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+
+        .policy-section ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .policy-section ul li {
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-about p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .social-links a:hover,
+        .social-links a:focus {
+            opacity: 1;
+        }
+
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links ul li a:hover,
+        .footer-links ul li a:focus {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .disclaimer {
+            margin-top: 20px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        [id] {
+            scroll-margin-top: 110px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+
+            nav ul {
+                margin: 15px 0;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .auth-buttons {
+                margin-top: 15px;
+            }
+
+            .policy-section {
+                padding: 150px 0 80px;
+            }
+
+            .policy-section h1 {
+                font-size: 28px;
+            }
+
+            .policy-section h2 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .policy-section h1 {
+                font-size: 24px;
+            }
+
+            .policy-section h2 {
+                font-size: 18px;
+            }
+        }
+
+        /* Visually Hidden for Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-pen-fancy" aria-hidden="true"></i>
+                <span>Maestro Essays</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="index.html#prices">Prices</a></li>
+                    <li><a href="writer.html">Writers</a></li>
+                    <li><a href="samples.html">Samples</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="login-btn">Login</button>
+                <button class="btn btn-primary" id="signup-btn">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Revision Policy Section -->
+    <section class="policy-section">
+        <div class="container">
+            <h1>Revision Policy</h1>
+            <p>At Maestro Essay, we are committed to ensuring your complete satisfaction with the academic writing services we provide. Our revision policy allows you to request modifications to your delivered work to meet your expectations, provided the requests align with the original instructions.</p>
+
+            <h2>Free Revisions</h2>
+            <p>We offer free revisions within 14 days of the delivery of your order, subject to the following conditions:</p>
+            <ul>
+                <li>Revisions must be based on the original order instructions provided at the time of placing the order.</li>
+                <li>Requests for revisions must be submitted within 14 days from the date the completed order is delivered to you.</li>
+                <li>Revisions are limited to adjustments that improve the quality of the work, such as correcting errors, clarifying content, or addressing minor formatting issues.</li>
+            </ul>
+
+            <h2>Exclusions</h2>
+            <p>The following scenarios are not covered under our free revision policy:</p>
+            <ul>
+                <li>Requests that significantly alter the original instructions, such as changing the topic, academic level, or scope of the work.</li>
+                <li>Revisions requested after the 14-day revision period has expired.</li>
+                <li>Additional work that was not part of the original order, such as adding new sections or increasing the page count.</li>
+            </ul>
+
+            <h2>How to Request a Revision</h2>
+            <p>To request a revision, please follow these steps:</p>
+            <ol>
+                <li>Log in to your Maestro Essay account.</li>
+                <li>Navigate to the order in question and select the "Request Revision" option.</li>
+                <li>Provide detailed instructions for the changes needed, referencing the original order requirements.</li>
+                <li>Submit your request, and our team will review it within 24 hours.</li>
+            </ol>
+            <p>We aim to complete revision requests within 2-5 business days, depending on the complexity of the changes. Urgent revisions may be accommodated upon request, subject to availability.</p>
+
+            <h2>Our Commitment</h2>
+            <p>If a revision request is valid and aligns with the original instructions, we will assign the task to the original writer whenever possible to ensure consistency. Our goal is to deliver a final product that meets your academic needs and adheres to the highest standards of quality.</p>
+
+            <p>For any questions about our revision policy, please contact our support team at <a href="mailto:support@maestroessay.com">support@maestroessay.com</a> or via our 24/7 live chat.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <i class="fas fa-pen-fancy" aria-hidden="true"></i> Maestro Essays
+                    </div>
+                    <p>Providing premium academic writing services since 2015. Our team of expert writers delivers high-quality, custom-written papers to students worldwide.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="disclaimer">
+                        <p>Our services are intended for reference purposes only. Please adhere to your institution's academic integrity policies.</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Essay Writing</a></li>
+                        <li><a href="#">Research Papers</a></li>
+                        <li><a href="#">Dissertations</a></li>
+                        <li><a href="#">Theses</a></li>
+                        <li><a href="#">Editing & Proofreading</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="writer.html">Our Writers</a></li>
+                        <li><a href="index.html#testimonials">Testimonials</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact-us.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="cookies-policy.html">Cookie Policy</a></li>
+                        <li><a href="refund-policy.html">Money Back Guarantee</a></li>
+                        <li><a href="revision-policy.html">Revision Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Maestro Essay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tawk.to Script -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/680e14d2429e411905b995fa/1iprg2mgh';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to use our chat support.</noscript>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navigation
+            document.getElementById('login-btn').addEventListener('click', () => {
+                window.location.href = 'login.html';
+            });
+            document.getElementById('signup-btn').addEventListener('click', () => {
+                window.location.href = 'sign-up.html';
+            });
+        });
+    </script>
+</body>
+</html>

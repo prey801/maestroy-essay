@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Policy - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --gray: #718096;
+            --light-gray: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+        }
+        
+        /* Refund Section */
+        .refund-hero {
+            padding: 180px 0 80px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #f9f9f9 100%);
+            text-align: center;
+        }
+        
+        .refund-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .refund-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--gray);
+        }
+        
+        .refund-content {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .refund-content h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .refund-content h3 {
+            font-size: 20px;
+            margin: 30px 0 15px;
+            color: var(--primary);
+        }
+        
+        .refund-content p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        .refund-content ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        
+        .refund-content ul li {
+            margin-bottom: 10px;
+            color: var(--gray);
+        }
+        
+        .refund-content a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .refund-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .footer-about p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .social-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links ul li a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .refund-hero h1 {
+                font-size: 36px;
+            }
+            
+            .refund-hero p {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .refund-content h2 {
+                font-size: 24px;
+            }
+            
+            .refund-content h3 {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin: 15px 0;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-pen-fancy"></i>
+                <span>Maestro Essay</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="index.html#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                    <li><a href="writer.html">Writers</a></li>
+                    <li><a href="samples.html">Samples</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline">Login</button>
+                <button class="btn btn-primary">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Refund Hero Section -->
+    <section class="refund-hero">
+        <div class="container">
+            <h1>Refund Policy</h1>
+            <p>Last updated: April 30, 2025</p>
+        </div>
+    </section>
+
+    <!-- Refund Content Section -->
+    <section class="refund-content">
+        <div class="container">
+            <h2>Maestro Essay Refund Policy</h2>
+            <p>At Maestro Essay, we strive to deliver high-quality academic writing services that meet your expectations. Our Refund Policy outlines the conditions under which refunds may be issued. Please read this policy carefully before placing an order.</p>
+            
+            <h3>1. Overview</h3>
+            <p>Our Refund Policy is designed to ensure fairness for both our clients and our writers. Refunds are processed on a case-by-case basis, and eligibility depends on the specific circumstances of your order. All refund requests must be submitted in writing through our <a href="#">Contact Us</a> page or via email to <a href="#">support@maestroessay.com</a>.</p>
+            
+            <h3>2. Refund Eligibility</h3>
+            <p>You may be eligible for a refund under the following conditions:</p>
+            <ul>
+                <li><strong>Non-Delivery:</strong> If we fail to deliver your order by the agreed deadline and no alternative arrangements are made.</li>
+                <li><strong>Significant Deviation from Instructions:</strong> If the delivered work substantially deviates from the instructions provided at the time of ordering, and revisions cannot resolve the issue.</li>
+                <li><strong>Verified Plagiarism:</strong> If the delivered work is found to contain plagiarism, as confirmed by a reputable plagiarism detection tool, and we cannot provide a revised, original version.</li>
+                <li><strong>Order Cancellation Before Assignment:</strong> If you cancel your order before it is assigned to a writer, a full refund may be issued, subject to a processing fee (if applicable).</li>
+            </ul>
+            
+            <h3>3. Non-Refundable Circumstances</h3>
+            <p>Refunds will not be issued in the following cases:</p>
+            <ul>
+                <li><strong>Completed Work Meeting Specifications:</strong> If the delivered work meets the provided instructions and is delivered on time, no refund will be issued, even if you are dissatisfied with the content.</li>
+                <li><strong>Change of Mind:</strong> If you change your mind after the order is assigned to a writer or after receiving the completed work.</li>
+                <li><strong>Academic Outcomes:</strong> If you receive a lower grade or academic penalty due to the use of our work, as we provide reference materials only and cannot guarantee specific grades.</li>
+                <li><strong>Minor Issues Fixable by Revisions:</strong> If the issues with the work can be addressed through our free revision process (see Section 4).</li>
+                <li><strong>Late Submission of Refund Request:</strong> If the refund request is submitted after the applicable period (see Section 5).</li>
+            </ul>
+            
+            <h3>4. Free Revisions</h3>
+            <p>We offer free revisions within 14 days of delivery if the work does not fully meet the original instructions. To request a revision, contact us with specific details of the issues. If revisions cannot resolve the problem and the work significantly deviates from instructions, you may request a refund.</p>
+            
+            <h3>5. Refund Request Process</h3>
+            <p>To request a refund, follow these steps:</p>
+            <ul>
+                <li>Submit your request within 14 days of receiving the completed work, or within 7 days for urgent orders (less than 48-hour deadlines).</li>
+                <li>Contact us via our <a href="#">Contact Us</a> page or email <a href="#">support@maestroessay.com</a>, including your order number, a detailed explanation of the issue, and any supporting evidence (e.g., plagiarism report).</li>
+                <li>Our team will review your request within 5-7 business days and notify you of the outcome.</li>
+                <li>If approved, refunds will be processed to the original payment method within 7-10 business days, depending on your bank or payment provider.</li>
+            </ul>
+            
+            <h3>6. Partial Refunds</h3>
+            <p>In some cases, we may offer a partial refund based on the circumstances, such as:</p>
+            <ul>
+                <li>Partial delivery of a multi-part order.</li>
+                <li>Minor deviations from instructions that do not warrant a full refund.</li>
+                <li>Cancellation after a writer has begun working but before completion.</li>
+            </ul>
+            <p>Partial refund amounts are determined at our discretion and will be communicated during the review process.</p>
+            
+            <h3>7. Chargebacks and Disputes</h3>
+            <p>We encourage you to contact us directly to resolve any issues before initiating a chargeback or payment dispute with your bank or payment provider. Chargebacks without prior communication may result in account suspension and additional fees to cover administrative costs.</p>
+            
+            <h3>8. Fraudulent Orders</h3>
+            <p>Orders placed with fraudulent payment methods or false information are not eligible for refunds. We reserve the right to investigate suspected fraud and may report such activities to relevant authorities.</p>
+            
+            <h3>9. Changes to This Refund Policy</h3>
+            <p>We may update this Refund Policy to reflect changes in our practices or legal requirements. Updates will be posted on our website, and continued use of our services after changes constitutes acceptance of the updated policy.</p>
+            
+            <h3>10. Contact Us</h3>
+            <p>If you have questions or concerns about this Refund Policy, please contact us at:</p>
+            <ul>
+                <li>Email: <a href="#">support@maestroessay.com</a></li>
+                <li>Website: <a href="#">Contact Us</a></li>
+            </ul>
+            <p>We are committed to addressing your concerns promptly and fairly.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">Maestro Essay</a>
+                    <p>We provide top-quality academic writing services with a team of expert writers dedicated to your success.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="service.html">Services</a></li>
+                        <li><a href="index.html#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                        <li><a href="writer.html">Writers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="samples.html">Samples</a></li>
+                        <li><a href="FAGS.html">FAQ</a></li>
+                        <li><a href="contact-us.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="#" class="active">Refund Policy</a></li>
+                        <li><a href="#">Live Chat</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Maestro Essay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

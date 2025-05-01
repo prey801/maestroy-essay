@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Maestro Essay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #ff7e5f;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --gray: #718096;
+            --light-gray: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* keep going Coder your the best */
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+        }
+        
+        /* Privacy Section */
+        .privacy-hero {
+            padding: 180px 0 80px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #f9f9f9 100%);
+            text-align: center;
+        }
+        
+        .privacy-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .privacy-hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--gray);
+        }
+        
+        .privacy-content {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .privacy-content h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .privacy-content h3 {
+            font-size: 20px;
+            margin: 30px 0 15px;
+            color: var(--primary);
+        }
+        
+        .privacy-content p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        .privacy-content ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        
+        .privacy-content ul li {
+            margin-bottom: 10px;
+            color: var(--gray);
+        }
+        
+        .privacy-content a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .privacy-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .footer-about p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .social-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-links h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links ul li a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .privacy-hero h1 {
+                font-size: 36px;
+            }
+            
+            .privacy-hero p {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .privacy-content h2 {
+                font-size: 24px;
+            }
+            
+            .privacy-content h3 {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin: 15px 0;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-pen-fancy"></i>
+                <span>Maestro Essay</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="service.html">Services</a></li>
+                    <li><a href="index.html#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                    <li><a href="writer.html">Writers</a></li>
+                    <li><a href="samples.html">Samples</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline">Login</button>
+                <button class="btn btn-primary">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Privacy Hero Section -->
+    <section class="privacy-hero">
+        <div class="container">
+            <h1>Privacy Policy</h1>
+            <p>Last updated: April 30, 2025</p>
+        </div>
+    </section>
+
+    <!-- Privacy Content Section -->
+    <section class="privacy-content">
+        <div class="container">
+            <h2>Maestro Essay Privacy Policy</h2>
+            <p>At Maestro Essay, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our website and services. By using our services, you consent to the practices described in this policy.</p>[](https://en.wikipedia.org/wiki/Privacy_policy)
+            
+            <h3>1. Information We Collect</h3>
+            <p>We collect personal information to provide and improve our academic writing services. The types of information we may collect include:</p>
+            <ul>
+                <li><strong>Personal Identifiable Information (PII):</strong> Name, email address, phone number, billing address, and payment details provided when you place an order or create an account.</li>
+                <li><strong>Order-Related Information:</strong> Details about your academic assignments, such as subject, word count, and instructions.</li>
+                <li><strong>Usage Data:</strong> Information about how you interact with our website, including IP address, browser type, pages visited, and time spent, collected via cookies and similar technologies.</li>
+                <li><strong>Communication Data:</strong> Information you provide when contacting us through forms, email, or live chat.</li>
+            </ul>
+            
+            <h3>2. How We Collect Information</h3>
+            <p>We collect information through the following methods:</p>
+            <ul>
+                <li><strong>Directly from You:</strong> When you submit forms, place orders, or communicate with us.</li>
+                <li><strong>Automatically:</strong> Through cookies, web beacons, and analytics tools like Google Analytics, which track your interactions with our website.</li>[](https://securiti.ai/what-is-a-privacy-policy/)
+                <li><strong>Third Parties:</strong> From payment processors or service providers who assist in delivering our services.</li>
+            </ul>
+            
+            <h3>3. How We Use Your Information</h3>
+            <p>We use your information for the following purposes:</p>
+            <ul>
+                <li>To process and fulfill your orders, including assigning writers and delivering completed work.</li>
+                <li>To communicate with you about your orders, account, or customer support inquiries.</li>
+                <li>To improve our website and services through analytics and user feedback.</li>
+                <li>To send promotional emails about our services, if you have opted in (you can opt out at any time).</li>
+                <li>To comply with legal obligations, such as tax reporting or fraud prevention.</li>
+            </ul>
+            
+            <h3>4. How We Share Your Information</h3>
+            <p>We do not sell your personal information. We may share your information with:</p>
+            <ul>
+                <li><strong>Writers:</strong> Limited information necessary to complete your order, such as assignment details (excluding your name or contact information).</li>
+                <li><strong>Service Providers:</strong> Third parties like payment processors, hosting providers, or analytics tools, who are contractually obligated to protect your data.</li>[](https://securiti.ai/what-is-a-privacy-policy/)
+                <li><strong>Legal Authorities:</strong> If required by law, regulation, or legal process (e.g., to respond to a subpoena).</li>
+            </ul>
+            
+            <h3>5. Cookies and Tracking Technologies</h3>
+            <p>Our website uses cookies to enhance your experience. Cookies are small files stored on your device that help us:</p>
+            <ul>
+                <li>Remember your preferences and login status.</li>
+                <li>Analyze website performance and user behavior.</li>
+                <li>Deliver personalized content.</li>
+            </ul>
+            <p>You can manage cookie preferences through your browser settings, but disabling cookies may affect website functionality.</p>[](https://usercentrics.com/knowledge-hub/what-is-a-privacy-policy-and-why-do-you-need-one/)
+            
+            <h3>6. Data Security</h3>
+            <p>We implement reasonable security measures to protect your information, including:</p>
+            <ul>
+                <li>Secure Socket Layer (SSL) encryption for data transmission.</li>[](https://oag.ca.gov/privacy/facts/online-privacy/privacy-policy)
+                <li>Regular backups and access controls to prevent unauthorized access.</li>
+                <li>Contractual safeguards with third-party providers to ensure data confidentiality.</li>
+            </ul>
+            <p>However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+            
+            <h3>7. Your Privacy Rights</h3>
+            <p>Depending on your location, you may have the following rights regarding your personal data:</p>
+            <ul>
+                <li><strong>Access:</strong> Request a copy of the personal information we hold about you.</li>
+                <li><strong>Correction:</strong> Request corrections to inaccurate or incomplete data.</li>
+                <li><strong>Deletion:</strong> Request deletion of your data, subject to legal retention obligations.</li>
+                <li><strong>Opt-Out:</strong> Opt out of marketing communications or certain data processing activities.</li>
+                <li><strong>Portability:</strong> Request a transferable copy of your data in a structured format.</li>
+            </ul>
+            <p>To exercise these rights, contact us at <a href="#">support@maestroessay.com</a>. We will respond within the timeframes required by applicable laws (e.g., 30 days under GDPR).</p>[](https://www.apple.com/legal/privacy/en-ww/)[](https://termly.io/resources/articles/what-is-a-privacy-policy/)
+            
+            <h3>8. International Data Transfers</h3>
+            <p>Your information may be transferred to and stored in countries outside your jurisdiction, such as the United States, where our servers or service providers are located. We ensure appropriate safeguards, such as standard contractual clauses, are in place to protect your data during international transfers.</p>[](https://www.pewresearch.org/about/privacy-policy/)
+            
+            <h3>9. Third-Party Links</h3>
+            <p>Our website may contain links to third-party websites (e.g., payment processors or social media). We are not responsible for the privacy practices of these sites. We encourage you to review their privacy policies before providing personal information.</p>[](https://www.state.gov/privacy-policy)
+            
+            <h3>10. Children’s Privacy</h3>
+            <p>Our services are not intended for individuals under 13 years of age. We do not knowingly collect personal information from children under 13. If we learn that we have collected such information, we will delete it promptly.</p>[](https://www.pewresearch.org/about/privacy-policy/)
+            
+            <h3>11. Changes to This Privacy Policy</h3>
+            <p>We may update this Privacy Policy to reflect changes in our practices or legal requirements. We will notify you of material changes by posting the updated policy on our website or via email. Continued use of our services after changes constitutes acceptance of the updated policy.</p>[](https://www.linkedin.com/legal/privacy-policy)
+            
+            <h3>12. Contact Us</h3>
+            <p>If you have questions or concerns about this Privacy Policy or our data practices, please contact us at:</p>
+            <ul>
+                <li>Email: <a href="#">support@maestroessay.com</a></li>
+                <li>Website: <a href="#">Contact Us</a></li>
+            </ul>
+            <p>You may also have the right to lodge a complaint with a data protection authority in your jurisdiction.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">Maestro Essay</a>
+                    <p>We provide top-quality academic writing services with a team of expert writers dedicated to your success.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="service.html">Services</a></li>
+                        <li><a href="index.html#prices" onclick="scrollToPrices(event)">Prices</a></li>
+                        <li><a href="writer.html">Writers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="samples.html">Samples</a></li>
+                        <li><a href="FAGS.html">FAQ</a></li>
+                        <li><a href="contact-us.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="#" class="active">Privacy Policy</a></li>
+                        <li><a href="refund-policy.html">Refund Policy</a></li>
+                        <li><a href="#">Live Chat</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Maestro Essay. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
