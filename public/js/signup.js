@@ -117,12 +117,10 @@ const handleSignup = async (form) => {
 
       const data = await response.json();
 
-      if (response.ok) {
-        alert(data.message);
-        window.location.href = './dashboard.html';
-      } else {
-        alert(data.error || 'Signup failed.');
-      }
+      alert(data.message);
+      setTimeout(() => {
+        window.location.href = './student_dashboard.html';
+      }, 500);
     } catch (error) {
       console.error('Signup error:', error);
       alert('An error occurred during signup. Please try again.');

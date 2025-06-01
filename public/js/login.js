@@ -24,7 +24,7 @@
                 
                 // Simulate successful login
                 alert('Login successful! Redirecting to dashboard...');
-                window.location.href = './dashboard.html';
+                window.location.href = './student_dashboard.html';
             });
             
             // Google login button

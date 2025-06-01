@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | InkFlow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./css/student_dashboard.css">
+
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo"><i class="fa-solid fa-pen-nib"></i></div>
+                <span>Maestro Essay</span>
+            </div>
+            
+            <div class="sidebar-menu">
+                <a href="#" class="menu-item active" aria-current="page">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    <span>New Order</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-tasks" aria-hidden="true"></i>
+                    <span>My Orders</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-file-alt" aria-hidden="true"></i>
+                    <span>Completed Work</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-wallet" aria-hidden="true"></i>
+                    <span>Payments</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-user-tie" aria-hidden="true"></i>
+                    <span>My Writers</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-cog" aria-hidden="true"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="mobile-toggle" role="button" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <h1 class="page-title">Student Dashboard</h1>
+                <div class="user-profile">
+                    <div class="user-avatar hover-scale" aria-label="User profile">SM</div>
+                    <span>Sarah Miller</span>
+                </div>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card primary hover-scale">
+                    <div class="stat-title">Active Orders</div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-change">+1 from last week</div>
+                </div>
+                
+                <div class="stat-card secondary hover-scale">
+                    <div class="stat-title">Pending Approval</div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-change negative">-1 from yesterday</div>
+                </div>
+                
+                <div class="stat-card success hover-scale">
+                    <div class="stat-title">Completed Works</div>
+                    <div class="stat-value">15</div>
+                    <div class="stat-change">+3 from last month</div>
+                </div>
+                
+                <div class="stat-card gray hover-scale">
+                    <div class="stat-title">Total Spent</div>
+                    <div class="stat-value">$1,250</div>
+                    <div class="stat-change">+$350 this month</div>
+                </div>
+            </div>
+            
+            <!-- Upload New Order Section -->
+            <div class="upload-section">
+                <div class="section-header">
+                    <h2 class="section-title">Submit New Assignment</h2>
+                </div>
+                
+                <div class="upload-area" id="uploadArea" role="button" aria-label="Upload files">
+                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                    <h3>Drag & Drop Your Files Here</h3>
+                    <p>or click to browse files (PDF, DOC, DOCX, PPT)</p>
+                    <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.ppt,.pptx" style="display: none;" aria-label="File upload">
+                </div>
+                
+                <div class="form-group">
+                    <label for="assignmentTitle">Assignment Title</label>
+                    <input type="text" id="assignmentTitle" class="form-control" placeholder="e.g. Research Paper on Climate Change" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="assignmentType">Assignment Type</label>
+                    <select id="assignmentType" class="form-control" required>
+                        <option value="">Select assignment type</option>
+                        <option value="essay">Essay</option>
+                        <option value="research">Research Paper</option>
+                        <option value="thesis">Thesis/Dissertation</option>
+                        <option value="case">Case Study</option>
+                        <option value="presentation">Presentation</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deadline">Deadline</label>
+                    <input type="date" id="deadline" class="form-control" required>
+                </div>
+                
+                <div class="error-message" id="errorMessage">Please fill out all fields and upload a valid file.</div>
+                
+                <button class="upload-btn ripple" id="submitAssignment" aria-label="Submit Assignment">
+                    <i class="fas fa-paper-plane" aria-hidden="true"></i> Submit Assignment
+                </button>
+            </div>
+            
+            <!-- Current Orders Section -->
+            <div class="orders-section">
+                <div class="section-header">
+                    <h2 class="section-title">My Active Orders</h2>
+                    <a href="#" class="view-all" aria-label="View all orders">View All</a>
+                </div>
+                
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Assignment</th>
+                            <th>Writer</th>
+                            <th>Deadline</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="order-title">Research Paper on AI Ethics</div>
+                                <div class="order-details">Computer Science | 10 pages</div>
+                            </td>
+                            <td>
+                                <div class="writer-info">
+                                    <div class="writer-avatar">JD</div>
+                                    <span>John Doe</span>
+                                </div>
+                            </td>
+                            <td>Jun 15, 2023</td>
+                            <td><span class="status-badge in-progress">In Progress</span></td>
+                            <td>
+                                <button class="action-btn ripple" title="Message Writer" aria-label="Message Writer"><i class="fas fa-comment" aria-hidden="true"></i></button>
+                                <button class="action-btn light ripple" title="View Details" aria-label="View Details"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="order-title">Marketing Case Study</div>
+                                <div class="order-details">Business | 5 pages</div>
+                            </td>
+                            <td>
+                                <div class="writer-info">
+                                    <div class="writer-avatar">AS</div>
+                                    <span>Alex Smith</span>
+                                </div>
+                            </td>
+                            <td>Jun 18, 2023</td>
+                            <td><span class="status-badge pending">Pending Review</span></td>
+                            <td>
+                                <button class="action-btn ripple" title="Request Revision" aria-label="Request Revision"><i class="fas fa-sync-alt" aria-hidden="true"></i></button>
+                                <button class="action-btn light ripple" title="View Details" aria-label="View Details"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="order-title">Literature Review</div>
+                                <div class="order-details">English | 8 pages</div>
+                            </td>
+                            <td>
+                                <div class="writer-info">
+                                    <div class="writer-avatar">EJ</div>
+                                    <span>Emma Johnson</span>
+                                </div>
+                            </td>
+                            <td>Jun 20, 2023</td>
+                            <td><span class="status-badge revision">Revision</span></td>
+                            <td>
+                                <button class="action-btn ripple" title="Approve Changes" aria-label="Approve Changes"><i class="fas fa-check" aria-hidden="true"></i></button>
+                                <button class="action-btn light ripple" title="View Details" aria-label="View Details"><i class="fas fa-eye" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Recent Payments Section -->
+            <div class="payments-section hover-scale">
+                <div class="section-header">
+                    <h2 class="section-title">Payment History</h2>
+                    <a href="#" class="view-all" aria-label="View all payments">View All</a>
+                </div>
+                
+                <div class="payment-item">
+                    <div class="payment-info">
+                        <div class="payment-icon success">
+                            <i class="fas fa-check" aria-hidden="true"></i>
+                        </div>
+                        <div class="payment-details">
+                            <h4>Research Paper on AI Ethics</h4>
+                            <p>Completed on Jun 10, 2023</p>
+                        </div>
+                    </div>
+                    <div class="payment-amount">$250</div>
+                </div>
+                
+                <div class="payment-item">
+                    <div class="payment-info">
+                        <div class="payment-icon success">
+                            <i class="fas fa-check" aria-hidden="true"></i>
+                        </div>
+                        <div class="payment-details">
+                            <h4>Marketing Case Study</h4>
+                            <p>Completed on May 28, 2023</p>
+                        </div>
+                    </div>
+                    <div class="payment-amount">$180</div>
+                </div>
+                
+                <div class="payment-item">
+                    <div class="payment-info">
+                        <div class="payment-icon">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                        </div>
+                        <div class="payment-details">
+                            <h4>Literature Review</h4>
+                            <p>Pending - Due on Jun 20, 2023</p>
+                        </div>
+                    </div>
+                    <div class="payment-amount">$220</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal" role="dialog" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Upload Assignment Files</h3>
+                <button class="close-modal" id="closeModal" aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Your assignment files have been successfully uploaded!</p>
+                <div style="text-align: center; margin-top: 20px;">
+                    <i class="fas fa-check-circle" style="font-size: 48px; color: var(--success);" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 20px;">
+                <button class="action-btn light" id="modalCloseBtn" aria-label="Close">Close</button>
+            </div>
+        </div>
+    </div>
+    <script src="./js/student_dashboard.js"></script>
+
+</body>
+</html>
