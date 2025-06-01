@@ -119,7 +119,7 @@ const handleSignup = async (form) => {
 
       alert(data.message);
       setTimeout(() => {
-        window.location.href = './student_dashboard.html';
+        window.location.href = '/student_dashboard.html';
       }, 500);
     } catch (error) {
       console.error('Signup error:', error);
