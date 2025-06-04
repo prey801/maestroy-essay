@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const stripe = require("stripe")("sk_test_51RWBUZPZNlyYsEkQMbPwkOHKgu1KPuNF7nytYDuVVvfaPDq7jiZyJ7bsvl3JegMiPHMjo4ECea0dvQbMZrLCDPje00UanDjTu1");
 require('dotenv').config();
 
 const app = express();
@@ -233,7 +234,17 @@ app.post(
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+app.post("/create-payment-intent", async (req, res) => {
+  const { amount } = req.body;
 
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount,
+    currency: "usd",
+    payment_method_types: ["card"],
+  });
+
+  res.send({ clientSecret: paymentIntent.client_secret });
+});
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

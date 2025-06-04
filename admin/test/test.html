@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Secure Card Payment</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f4f4f4;
+    }
+    .payment-container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input, #card-element {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    #card-errors {
+      color: red;
+      margin-top: 10px;
+    }
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+    .row .form-group {
+      flex: 1;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 18px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    #card-brand {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="payment-container">
+    <h2>Pay with Card</h2>
+    <form id="payment-form">
+      <div class="form-group">
+        <label for="name">Cardholder Name</label>
+        <input type="text" id="name" placeholder="John Doe" required />
+      </div>
+
+      <div class="form-group">
+        <label for="card-element">Card Number</label>
+        <div id="card-element"></div>
+        <div id="card-brand"></div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label for="expiry">Expiry Date</label>
+          <div id="card-expiry-element"></div>
+        </div>
+        <div class="form-group">
+          <label for="cvc">CVC</label>
+          <div id="card-cvc-element"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="zip">ZIP/Postal Code</label>
+        <input type="text" id="zip" placeholder="12345" required />
+      </div>
+
+      <div id="card-errors" role="alert"></div>
+      <button type="submit">Pay $10</button>
+    </form>
+  </div>
+
+  <script>
+    const stripe = Stripe('pk_test_51RTRDMCu5thqDS6BzN4ClyL7X4oX16TL33h100DOmnxGIaS7UGJIeU67k3SWHVq3s1tTO3vjkFqApVzUe9lXmNmD00SABMjhgp');
+    const elements = stripe.elements();
+
+    const style = {
+      base: {
+        fontSize: '16px',
+        color: '#32325d',
+        '::placeholder': { color: '#a0aec0' },
+      }
+    };
+
+    const cardNumber = elements.create('cardNumber', { style });
+    const cardExpiry = elements.create('cardExpiry', { style });
+    const cardCvc = elements.create('cardCvc', { style });
+
+    cardNumber.mount('#card-element');
+    cardExpiry.mount('#card-expiry-element');
+    cardCvc.mount('#card-cvc-element');
+
+    const form = document.getElementById('payment-form');
+    const brandDisplay = document.getElementById('card-brand');
+
+    cardNumber.on('change', function(event) {
+      const brand = event.brand;
+      if (brand === 'visa') {
+        brandDisplay.textContent = 'Card Type: Visa';
+      } else if (brand === 'mastercard') {
+        brandDisplay.textContent = 'Card Type: Mastercard';
+      } else if (brand === 'amex') {
+        brandDisplay.textContent = 'Card Type: American Express';
+      } else if (brand === 'discover') {
+        brandDisplay.textContent = 'Card Type: Discover';
+      } else {
+        brandDisplay.textContent = '';
+      }
+
+      if (event.error) {
+        document.getElementById('card-errors').textContent = event.error.message;
+      } else {
+        document.getElementById('card-errors').textContent = '';
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const zip = document.getElementById('zip').value;
+
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardNumber,
+        billing_details: {
+          name: name,
+          address: {
+            postal_code: zip
+          }
+        }
+      });
+
+      if (error) {
+        document.getElementById('card-errors').textContent = error.message;
+      } else {
+        const response = await fetch('http://localhost:5000/charge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ payment_method_id: paymentMethod.id })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert('Payment successful!');
+        } else {
+          alert('Payment failed: ' + result.error);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
