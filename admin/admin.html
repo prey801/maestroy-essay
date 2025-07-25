@@ -312,7 +312,7 @@
             margin-bottom: 5px;
         }
         
-        .stat-change morn {
+        .stat-change {
             font-size: 12px;
             display: flex;
             align-items: center;
@@ -639,7 +639,7 @@
             </a>
             
             <div class="menu-divider">Management</div>
-            <a href="admin/orders.html" class="menu-item">
+            <a href="orders.html" class="menu-item">
                 <i class="fas fa-file-alt"></i>
                 <span>Orders</span>
                 <span class="badge">5</span>
@@ -719,34 +719,34 @@
             <div class="stats-grid">
                 <div class="stat-card success">
                     <div class="stat-title">Total Orders</div>
-                    <div class="stat-value">1,234</div>
+                    <div class="stat-value">0</div>
                     <div class="stat-change up">
                         <i class="fas fa-arrow-up"></i>
-                        <span>12% from last month</span>
+                        <span>Loading...</span>
                     </div>
                 </div>
                 <div class="stat-card warning">
-                    <div class="stat-title">Active Writers</div>
-                    <div class="stat-value">45</div>
+                    <div class="stat-title">Total Users</div>
+                    <div class="stat-value">0</div>
                     <div class="stat-change up">
                         <i class="fas fa-arrow-up"></i>
-                        <span>3 new this month</span>
+                        <span>Loading...</span>
                     </div>
                 </div>
                 <div class="stat-card primary">
-                    <div class="stat-title">Revenue</div>
-                    <div class="stat-value">$12,345</div>
+                    <div class="stat-title">Total Revenue</div>
+                    <div class="stat-value">$0</div>
                     <div class="stat-change up">
                         <i class="fas fa-arrow-up"></i>
-                        <span>15% from last month</span>
+                        <span>Loading...</span>
                     </div>
                 </div>
                 <div class="stat-card danger">
                     <div class="stat-title">Pending Orders</div>
-                    <div class="stat-value">23</div>
+                    <div class="stat-value">0</div>
                     <div class="stat-change down">
                         <i class="fas fa-arrow-down"></i>
-                        <span>5 less than yesterday</span>
+                        <span>Loading...</span>
                     </div>
                 </div>
             </div>
@@ -866,6 +866,322 @@
     </div>
 
     <script>
+        // Admin authentication and API configuration
+        let adminToken = localStorage.getItem('adminToken');
+        const API_BASE = window.location.origin;
+        let currentAdmin = null;
+
+        // Check authentication on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (!adminToken) {
+                showLoginForm();
+            } else {
+                await validateTokenAndLoadDashboard();
+            }
+        });
+
+        // Show login form
+        function showLoginForm() {
+            const loginHtml = `
+                <div id="loginOverlay" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                ">
+                    <div style="
+                        background: white;
+                        padding: 40px;
+                        border-radius: 10px;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                        width: 100%;
+                        max-width: 400px;
+                    ">
+                        <h2 style="text-align: center; margin-bottom: 30px; color: var(--primary);">Admin Login</h2>
+                        <form id="adminLoginForm">
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Email:</label>
+                                <input type="email" id="adminEmail" required style="
+                                    width: 100%;
+                                    padding: 12px;
+                                    border: 1px solid #ddd;
+                                    border-radius: 5px;
+                                    font-size: 16px;
+                                ">
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Password:</label>
+                                <input type="password" id="adminPassword" required style="
+                                    width: 100%;
+                                    padding: 12px;
+                                    border: 1px solid #ddd;
+                                    border-radius: 5px;
+                                    font-size: 16px;
+                                ">
+                            </div>
+                            <button type="submit" style="
+                                width: 100%;
+                                padding: 12px;
+                                background: var(--primary);
+                                color: white;
+                                border: none;
+                                border-radius: 5px;
+                                font-size: 16px;
+                                cursor: pointer;
+                            ">Login</button>
+                            <div id="loginError" style="color: red; margin-top: 10px; text-align: center;"></div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', loginHtml);
+            
+            document.getElementById('adminLoginForm').addEventListener('submit', handleLogin);
+        }
+
+        // Handle admin login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const errorDiv = document.getElementById('loginError');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    adminToken = data.token;
+                    currentAdmin = data.admin;
+                    localStorage.setItem('adminToken', adminToken);
+                    document.getElementById('loginOverlay').remove();
+                    await loadDashboardData();
+                    updateUserInfo();
+                } else {
+                    errorDiv.textContent = data.error || 'Login failed';
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Network error. Please try again.';
+                console.error('Login error:', error);
+            }
+        }
+
+        // Validate token and load dashboard
+        async function validateTokenAndLoadDashboard() {
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/dashboard`, {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    await loadDashboardData();
+                } else {
+                    localStorage.removeItem('adminToken');
+                    adminToken = null;
+                    showLoginForm();
+                }
+            } catch (error) {
+                console.error('Token validation error:', error);
+                showLoginForm();
+            }
+        }
+
+        // Load dashboard data from API
+        async function loadDashboardData() {
+            try {
+                // Load dashboard stats
+                const statsResponse = await fetch(`${API_BASE}/api/admin/dashboard`, {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`
+                    }
+                });
+                
+                if (statsResponse.ok) {
+                    const statsData = await statsResponse.json();
+                    updateDashboardStats(statsData.stats);
+                    updateRecentOrders(statsData.recentOrders);
+                    updateRecentActivity(statsData.recentUsers);
+                }
+
+                // Load system health
+                const healthResponse = await fetch(`${API_BASE}/api/health`);
+                if (healthResponse.ok) {
+                    const healthData = await healthResponse.json();
+                    updateSystemHealth(healthData);
+                }
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showError('Failed to load dashboard data');
+            }
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats(stats) {
+            document.querySelector('.stat-card.success .stat-value').textContent = stats.totalOrders || 0;
+            document.querySelector('.stat-card.warning .stat-value').textContent = stats.totalUsers || 0;
+            document.querySelector('.stat-card.primary .stat-value').textContent = `$${stats.totalRevenue || 0}`;
+            document.querySelector('.stat-card.danger .stat-value').textContent = stats.pendingOrders || 0;
+        }
+
+        // Update recent orders table
+        function updateRecentOrders(orders) {
+            const tbody = document.querySelector('.recent-orders tbody');
+            if (!orders || orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">No recent orders</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = orders.slice(0, 5).map(order => {
+                const statusClass = getStatusClass(order.status);
+                return `
+                    <tr>
+                        <td><a href="#" class="order-id">#${order._id.slice(-6)}</a></td>
+                        <td>${order.user ? order.user.firstName + ' ' + order.user.lastName : 'N/A'}</td>
+                        <td>${order.assignment ? order.assignment.title : 'N/A'}</td>
+                        <td><span class="status-badge ${statusClass}">${order.status}</span></td>
+                        <td>${new Date(order.dueDate).toLocaleDateString()}</td>
+                        <td>$${order.amount}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Update recent activity
+        function updateRecentActivity(users) {
+            const activityContainer = document.querySelector('.recent-activity');
+            const activities = [];
+            
+            if (users && users.length > 0) {
+                users.forEach(user => {
+                    activities.push({
+                        icon: 'fas fa-user-plus',
+                        title: 'New User Registered',
+                        description: `${user.firstName} ${user.lastName} joined the platform`,
+                        time: formatTimeAgo(user.createdAt)
+                    });
+                });
+            }
+
+            const activityHtml = activities.length > 0 ? activities.map(activity => `
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="${activity.icon}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-description">${activity.description}</div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                </div>
+            `).join('') : '<p style="text-align: center; padding: 20px;">No recent activity</p>';
+
+            activityContainer.innerHTML = '<div class="table-title">Recent Activity</div>' + activityHtml;
+        }
+
+        // Update user info in top nav
+        function updateUserInfo() {
+            if (currentAdmin) {
+                const userNameEl = document.querySelector('.user-name');
+                const userAvatarEl = document.querySelector('.user-avatar');
+                
+                if (userNameEl) userNameEl.textContent = `${currentAdmin.firstName} ${currentAdmin.lastName}`;
+                if (userAvatarEl) userAvatarEl.textContent = currentAdmin.firstName.charAt(0) + currentAdmin.lastName.charAt(0);
+            }
+        }
+
+        // Utility functions
+        function getStatusClass(status) {
+            const statusMap = {
+                'draft': 'status-pending',
+                'in-progress': 'status-in-progress', 
+                'completed': 'status-completed',
+                'cancelled': 'status-cancelled'
+            };
+            return statusMap[status] || 'status-pending';
+        }
+
+        function formatTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffInMs = now - date;
+            const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+            const diffInDays = Math.floor(diffInHours / 24);
+
+            if (diffInDays > 0) {
+                return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+            } else if (diffInHours > 0) {
+                return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+            } else {
+                return 'Just now';
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--danger);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 1000;
+                font-weight: 500;
+            `;
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+            
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminToken');
+            adminToken = null;
+            currentAdmin = null;
+            location.reload();
+        }
+
+        // Update system health info
+        function updateSystemHealth(healthData) {
+            // Add health indicator to top nav
+            const healthIndicator = document.createElement('div');
+            healthIndicator.style.cssText = `
+                margin-right: 15px;
+                padding: 5px 10px;
+                border-radius: 15px;
+                font-size: 12px;
+                font-weight: 600;
+                background: ${healthData.database.connection === 'healthy' ? 'var(--success)' : 'var(--danger)'};
+                color: white;
+            `;
+            healthIndicator.textContent = `DB: ${healthData.database.connection}`;
+            
+            const userMenu = document.querySelector('.user-menu');
+            if (userMenu && !document.querySelector('.health-indicator')) {
+                healthIndicator.className = 'health-indicator';
+                userMenu.insertBefore(healthIndicator, userMenu.firstChild);
+            }
+        }
+
         // Sidebar toggle for mobile
         const menuToggle = document.querySelector('.menu-toggle');
         const sidebar = document.querySelector('.sidebar');
@@ -874,59 +1190,223 @@
             sidebar.classList.toggle('active');
         });
 
-        // Search functionality
+        // Search functionality - now functional
         const searchInput = document.querySelector('.search-bar input');
+        let searchTimeout;
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
-            // Implement search logic here
-            console.log('Searching for:', searchTerm);
+            
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(async () => {
+                if (searchTerm.length > 2) {
+                    await performSearch(searchTerm);
+                }
+            }, 500);
         });
 
-        // Notification click handler
+        async function performSearch(term) {
+            try {
+                // Search users
+                const response = await fetch(`${API_BASE}/api/admin/users?search=${encodeURIComponent(term)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Search results:', data.users);
+                    // You can implement a dropdown here to show search results
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+            }
+        }
+
+        // Notification click handler - now functional
         const notificationIcon = document.querySelector('.notification-icon');
-        notificationIcon.addEventListener('click', () => {
-            // Implement notification view logic
-            console.log('Notifications clicked');
+        notificationIcon.addEventListener('click', async () => {
+            // Load recent orders as notifications
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/orders?limit=5`, {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showNotifications(data.orders);
+                }
+            } catch (error) {
+                console.error('Notification error:', error);
+            }
         });
 
-        // User profile dropdown
+        function showNotifications(orders) {
+            const notificationHtml = `
+                <div id="notificationDropdown" style="
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    background: white;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 5px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    width: 300px;
+                    max-height: 400px;
+                    overflow-y: auto;
+                    z-index: 1000;
+                ">
+                    <div style="padding: 15px; border-bottom: 1px solid #e2e8f0; font-weight: 600;">Recent Orders</div>
+                    ${orders.map(order => `
+                        <div style="padding: 10px 15px; border-bottom: 1px solid #f0f0f0;">
+                            <div style="font-weight: 500;">Order #${order._id.slice(-6)}</div>
+                            <div style="font-size: 12px; color: #666;">$${order.amount} - ${order.status}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // Remove existing dropdown
+            const existingDropdown = document.getElementById('notificationDropdown');
+            if (existingDropdown) existingDropdown.remove();
+            
+            // Add new dropdown
+            notificationIcon.style.position = 'relative';
+            notificationIcon.insertAdjacentHTML('beforeend', notificationHtml);
+            
+            // Close dropdown when clicking outside
+            setTimeout(() => {
+                document.addEventListener('click', function closeDropdown(e) {
+                    if (!notificationIcon.contains(e.target)) {
+                        const dropdown = document.getElementById('notificationDropdown');
+                        if (dropdown) dropdown.remove();
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                });
+            }, 100);
+        }
+
+        // User profile dropdown - now functional
         const userProfile = document.querySelector('.user-profile');
         userProfile.addEventListener('click', () => {
-            // Implement dropdown menu logic
-            console.log('User profile clicked');
+            const dropdownHtml = `
+                <div id="userDropdown" style="
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    background: white;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 5px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    width: 200px;
+                    z-index: 1000;
+                ">
+                    <a href="#" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-bottom: 1px solid #f0f0f0;">Profile Settings</a>
+                    <a href="#" onclick="logout()" style="display: block; padding: 10px 15px; text-decoration: none; color: var(--danger);">Logout</a>
+                </div>
+            `;
+            
+            // Remove existing dropdown
+            const existingDropdown = document.getElementById('userDropdown');
+            if (existingDropdown) {
+                existingDropdown.remove();
+                return;
+            }
+            
+            // Add new dropdown
+            userProfile.style.position = 'relative';
+            userProfile.insertAdjacentHTML('beforeend', dropdownHtml);
+            
+            // Close dropdown when clicking outside
+            setTimeout(() => {
+                document.addEventListener('click', function closeDropdown(e) {
+                    if (!userProfile.contains(e.target)) {
+                        const dropdown = document.getElementById('userDropdown');
+                        if (dropdown) dropdown.remove();
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                });
+            }, 100);
         });
 
-        // Pagination controls
-        const paginationButtons = document.querySelectorAll('.pagination-btn');
-        paginationButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                paginationButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                // Implement pagination logic
-                console.log('Page changed:', button.textContent);
-            });
-        });
-
-        // Table filter button
+        // Table filter button - now functional
         const filterButton = document.querySelector('.table-actions .btn:first-child');
-        filterButton.addEventListener('click', () => {
-            // Implement filter logic
-            console.log('Filter clicked');
+        filterButton.addEventListener('click', async () => {
+            const filter = prompt('Filter orders by status (draft, in-progress, completed, cancelled):');
+            if (filter) {
+                try {
+                    const response = await fetch(`${API_BASE}/api/admin/orders?status=${encodeURIComponent(filter)}`, {
+                        headers: {
+                            'Authorization': `Bearer ${adminToken}`
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        updateRecentOrders(data.orders);
+                    }
+                } catch (error) {
+                    console.error('Filter error:', error);
+                }
+            }
         });
 
-        // Table export button
+        // Table export button - now functional
         const exportButton = document.querySelector('.table-actions .btn:last-child');
-        exportButton.addEventListener('click', () => {
-            // Implement export logic
-            console.log('Export clicked');
+        exportButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/orders`, {
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    exportToCSV(data.orders);
+                }
+            } catch (error) {
+                console.error('Export error:', error);
+            }
         });
 
-        // New order button
+        function exportToCSV(orders) {
+            const headers = ['Order ID', 'Client', 'Amount', 'Status', 'Date'];
+            const csvContent = [
+                headers.join(','),
+                ...orders.map(order => [
+                    order._id.slice(-6),
+                    order.user ? `"${order.user.firstName} ${order.user.lastName}"` : 'N/A',
+                    order.amount,
+                    order.status,
+                    new Date(order.createdAt).toLocaleDateString()
+                ].join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `orders-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // New order button - now functional
         const newOrderButton = document.querySelector('.page-header .btn-primary');
         newOrderButton.addEventListener('click', () => {
-            // Implement new order logic
-            console.log('New order clicked');
+            // Redirect to orders page or show order creation modal
+            window.location.href = 'orders.html';
         });
+
+        // Auto-refresh dashboard every 5 minutes
+        setInterval(() => {
+            if (adminToken) {
+                loadDashboardData();
+            }
+        }, 5 * 60 * 1000);
     </script>
 </body>
 </html>

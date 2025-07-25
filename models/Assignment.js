@@ -19,9 +19,10 @@ const assignmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  userId: {
-    type: String,
-    required: true, // For simplicity, assume userId is passed from frontend
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
   createdAt: {
     type: Date,

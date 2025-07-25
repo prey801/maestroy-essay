@@ -11,6 +11,18 @@ const multer = require('multer');
 const stripe = require("stripe")("sk_test_51RWBUZPZNlyYsEkQMbPwkOHKgu1KPuNF7nytYDuVVvfaPDq7jiZyJ7bsvl3JegMiPHMjo4ECea0dvQbMZrLCDPje00UanDjTu1");
 require('dotenv').config();
 
+// Database Connection
+const connectDB = require('./config/database');
+connectDB();
+
+// Models
+const User = require('./models/User');
+const Assignment = require('./models/Assignment');
+const Order = require('./models/Order');
+
+// Routes
+const adminRoutes = require('./routes/admin');
+
 const app = express();
 
 // Middleware
@@ -33,26 +45,9 @@ const loginLimiter = rateLimit({
 app.use('/api/signup', signupLimiter);
 app.use('/api/login', loginLimiter);
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {})
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+// Mount admin routes
+app.use('/api/admin', adminRoutes);
 
-// User Schema
-const userSchema = new mongoose.Schema({
-  firstName: { type: String, required: true, trim: true },
-  lastName: { type: String, required: true, trim: true },
-  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-  password: { type: String, required: true },
-  marketing: { type: Boolean, default: false },
-  agreedToTerms: { type: Boolean, required: true },
-  createdAt: { type: Date, default: Date.now },
-});
-
-const User = mongoose.model('User', userSchema);
-
-// Assignment Schema
-const Assignment = require('./models/Assignment');
 
 // JWT Authentication Middleware
 const authenticateToken = (req, res, next) => {
@@ -126,13 +121,11 @@ app.post(
         return res.status(400).json({ error: 'Email already exists.' });
       }
 
-      const hashedPassword = await bcrypt.hash(password, 10);
-
       const user = new User({
         firstName,
         lastName,
         email,
-        password: hashedPassword,
+        password, // Password will be hashed by the User model pre-save middleware
         marketing,
         agreedToTerms,
       });
@@ -170,7 +163,7 @@ app.post(
         return res.status(400).json({ error: 'Invalid email or password' });
       }
 
-      const isMatch = await bcrypt.compare(password, user.password);
+      const isMatch = await user.comparePassword(password);
       if (!isMatch) {
         return res.status(400).json({ error: 'Invalid email or password' });
       }
@@ -229,6 +222,179 @@ app.post(
     }
   }
 );
+
+// GET USER ASSIGNMENTS
+app.get('/api/assignments', authenticateToken, async (req, res) => {
+  try {
+    const assignments = await Assignment.find({ user: req.user.userId })
+      .populate('user', 'firstName lastName email')
+      .sort({ createdAt: -1 });
+    res.json(assignments);
+  } catch (error) {
+    console.error('Get assignments error:', error);
+    res.status(500).json({ error: 'Server error fetching assignments.' });
+  }
+});
+
+// GET USER PROFILE
+app.get('/api/profile', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Get profile error:', error);
+    res.status(500).json({ error: 'Server error fetching profile.' });
+  }
+});
+
+// UPDATE USER PROFILE
+app.put('/api/profile', authenticateToken, async (req, res) => {
+  try {
+    const { firstName, lastName, marketing } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user.userId,
+      { firstName, lastName, marketing },
+      { new: true, runValidators: true }
+    ).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({ error: 'Server error updating profile.' });
+  }
+});
+
+// CREATE ORDER WITH PAYMENT
+app.post('/api/orders', authenticateToken, async (req, res) => {
+  try {
+    const { assignmentId, amount, paymentMethodId } = req.body;
+    
+    // Verify assignment exists and belongs to user
+    const assignment = await Assignment.findOne({ 
+      _id: assignmentId, 
+      user: req.user.userId 
+    });
+    
+    if (!assignment) {
+      return res.status(404).json({ error: 'Assignment not found' });
+    }
+
+    // Create payment intent with Stripe
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount * 100, // Convert to cents
+      currency: 'usd',
+      payment_method: paymentMethodId,
+      confirmation_method: 'manual',
+      confirm: true,
+      return_url: `${process.env.FRONTEND_URL}/order-success`,
+    });
+
+    // Create order in database
+    const order = new Order({
+      user: req.user.userId,
+      assignment: assignmentId,
+      amount: amount,
+      stripePaymentIntentId: paymentIntent.id,
+      paymentStatus: paymentIntent.status === 'succeeded' ? 'completed' : 'pending',
+      dueDate: assignment.deadline
+    });
+
+    await order.save();
+    
+    res.json({ 
+      order, 
+      paymentIntent: {
+        id: paymentIntent.id,
+        status: paymentIntent.status,
+        client_secret: paymentIntent.client_secret
+      }
+    });
+  } catch (error) {
+    console.error('Create order error:', error);
+    res.status(500).json({ error: 'Server error creating order.' });
+  }
+});
+
+// GET USER ORDERS
+app.get('/api/orders', authenticateToken, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user.userId })
+      .populate('assignment')
+      .sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    console.error('Get orders error:', error);
+    res.status(500).json({ error: 'Server error fetching orders.' });
+  }
+});
+
+// UPDATE ORDER STATUS (Admin only)
+app.put('/api/orders/:orderId/status', authenticateToken, async (req, res) => {
+  try {
+    const { status } = req.body;
+    const { orderId } = req.params;
+
+    const order = await Order.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    ).populate('assignment').populate('user', 'firstName lastName email');
+
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    res.json(order);
+  } catch (error) {
+    console.error('Update order status error:', error);
+    res.status(500).json({ error: 'Server error updating order status.' });
+  }
+});
+
+// DATABASE HEALTH CHECK
+app.get('/api/health', async (req, res) => {
+  try {
+    // Check database connection
+    const dbState = mongoose.connection.readyState;
+    const dbStates = {
+      0: 'disconnected',
+      1: 'connected',
+      2: 'connecting',
+      3: 'disconnecting'
+    };
+
+    // Get collection counts
+    const userCount = await User.countDocuments();
+    const assignmentCount = await Assignment.countDocuments();
+    const orderCount = await Order.countDocuments();
+
+    res.json({
+      status: 'healthy',
+      database: {
+        status: dbStates[dbState],
+        connection: dbState === 1 ? 'healthy' : 'unhealthy'
+      },
+      collections: {
+        users: userCount,
+        assignments: assignmentCount,
+        orders: orderCount
+      },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'unhealthy',
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
 
 // Serve HTML file
 app.get('/', (req, res) => {
